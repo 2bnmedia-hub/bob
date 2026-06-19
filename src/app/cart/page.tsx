@@ -50,10 +50,7 @@ export default function CartPage() {
             {items.map(item => (
               <div key={item.id} style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 16, padding: 20, display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 20, alignItems: 'center' }}>
                 <div style={{ background: 'var(--gray-100)', borderRadius: 10, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                  {item.image
-                    ? <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : <ShoppingCart size={28} strokeWidth={1.5} color="var(--gray-400)" />
-                  }
+<ShoppingCart size={28} strokeWidth={1.5} color="var(--gray-400)" />
                 </div>
 
                 <div>

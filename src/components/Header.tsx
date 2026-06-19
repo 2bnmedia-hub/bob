@@ -57,9 +57,44 @@ export default function Header() {
         <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 20, direction: 'rtl' }}>
 
           {/* LOGO */}
-          <Link href="/" style={{ flexShrink: 0 }}>
-            <Image src="/logo.png" alt="בוב חומרי בניין" width={100} height={60} style={{ objectFit: 'contain' }} />
-          </Link>
+                  {/* LOGO */}
+        <style>{`
+          @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+          }
+          @keyframes logoShine {
+            0% { left: -100%; }
+            100% { left: 200%; }
+          }
+          .logo-wrap {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            animation: logoFloat 3s ease-in-out infinite;
+            cursor: pointer;
+          }
+          .logo-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: logoShine 2.5s ease-in-out infinite;
+          }
+          .logo-wrap:hover {
+            animation: none;
+            transform: scale(1.06);
+            transition: transform 0.2s ease;
+          }
+        `}</style>
+        <Link href="/" style={{ flexShrink: 0 }}>
+          <div className="logo-wrap">
+            <Image src="/logo.png" alt="בוב חומרי בניין" width={133} height={80} style={{ objectFit: 'contain', display: 'block' }} />
+          </div>
+        </Link>
 
           {/* NAV */}
           <nav style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
