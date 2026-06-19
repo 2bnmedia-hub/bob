@@ -36,7 +36,7 @@ img { max-width: 100%; display: block; }
 
 .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--px); }
 
-.btn-primary { display: inline-flex; align-items: center; gap: 6px; background: var(--gold); color: var(--brown-dark); font-weight: 700; font-size: 14px; padding: 10px 22px; border-radius: var(--radius-sm); transition: background 0.18s; border: none; cursor: pointer; font-family: var(--font); }
+.btn-primary { display: inline-flex; align-items: center; gap: 6px; background: var(--gold); color: #111; font-weight: 700; font-size: 14px; padding: 10px 22px; border-radius: var(--radius-sm); transition: background 0.18s; border: none; cursor: pointer; font-family: var(--font); }
 .btn-primary:hover { background: var(--gold-dark); color: var(--white); }
 
 .btn-secondary { display: inline-flex; align-items: center; gap: 6px; background: var(--brown); color: var(--gold); font-weight: 700; font-size: 14px; padding: 10px 22px; border-radius: var(--radius-sm); transition: background 0.18s; border: none; cursor: pointer; font-family: var(--font); }

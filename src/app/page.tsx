@@ -84,7 +84,22 @@ const CATEGORIES = [
   { name: 'ריצוף', href: '/category/flooring', img: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=200&q=80' },
 ];
 
-const BRANDS = ['DeWalt','Milwaukee','Bosch','Makita','Stanley','Hilti','Festool','Stihl','Weber','Traeger','Benjamin Moore','Scotts','Valspar','3M'];
+const BRANDS = [
+  { name: 'DeWalt', domain: 'dewalt.com' },
+  { name: 'Milwaukee', domain: 'milwaukeetool.com' },
+  { name: 'Bosch', domain: 'bosch.com' },
+  { name: 'Makita', domain: 'makita.com' },
+  { name: 'Stanley', domain: 'stanleytools.com' },
+  { name: 'Hilti', domain: 'hilti.com' },
+  { name: 'Festool', domain: 'festool.com' },
+  { name: 'Stihl', domain: 'stihl.com' },
+  { name: 'Weber', domain: 'weber.com' },
+  { name: 'Traeger', domain: 'traeger.com' },
+  { name: 'Benjamin Moore', domain: 'benjaminmoore.com' },
+  { name: 'Scotts', domain: 'scotts.com' },
+  { name: 'Valspar', domain: 'valspar.com' },
+  { name: '3M', domain: '3m.com' },
+];
 
 /* ─── STARS ─── */
 function Stars({ rating }: { rating: number }) {
@@ -196,7 +211,7 @@ export default function HomePage() {
         <div style={{ position: 'absolute', inset: 0, background: hero.overlay }} />
 
         {/* TEXT */}
-        <div className="container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingRight: '8%', paddingLeft: '8%' }}>
           <div className="hero-text" key={`text-${heroIdx}`} style={{ maxWidth: 520 }}>
             <span style={{ background: 'var(--gold)', color: '#111', fontSize: 12, fontWeight: 700, padding: '4px 14px', borderRadius: 20, display: 'inline-block', marginBottom: 16 }}>{hero.badge}</span>
             <h1 style={{ fontSize: 'clamp(36px,5vw,60px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 16, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{hero.title}</h1>
@@ -297,37 +312,45 @@ export default function HomePage() {
       </FadeIn>
 
       {/* ══ SHOP BY CATEGORY ══ */}
-      <section style={{ padding: '80px 0', background: 'var(--gray-50)' }}>
+      <section style={{ background: '#fff', padding: '64px 0' }}>
         <div className="container">
-          <FadeIn>
-            <h2 className="section-title">קנייה לפי קטגוריה</h2>
-          </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 24 }}>
-            {CATEGORIES.map((cat, i) => (
-              <FadeIn key={cat.href} delay={i * 50}>
-                <Link href={cat.href} style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>
-                  <div style={{
-                    width: 80, height: 80, borderRadius: '50%', overflow: 'hidden',
-                    background: cat.red ? 'var(--red)' : '#fff',
-                    border: cat.red ? 'none' : '2px solid var(--gray-200)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    margin: '0 auto 12px',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)'; }}
-                  >
-                    {cat.red
-                      ? <span style={{ fontSize: 13, fontWeight: 900, color: '#fff', lineHeight: 1.4, display:'flex',flexDirection:'column',alignItems:'center',gap:2 }}>מבצע<ArrowLeft size={14} strokeWidth={2.5}/></span>
-                      : <img src={cat.img} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    }
+          <FadeIn><h2 className="section-title">קנייה לפי קטגוריה</h2></FadeIn>
+          <FadeIn delay={100}>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
+              {CATEGORIES.filter(c => !c.red).slice(0, 3).map((cat, i) => (
+                <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: i === 0 ? 340 : 200 }}
+                  onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
+                  onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
+                >
+                  <img src={cat.img} alt={cat.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }} />
+                  <div className="ov" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.28)', transition: 'background 0.3s' }} />
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '20px 24px' }}>
+                    <div style={{ fontSize: i === 0 ? 24 : 18, fontWeight: 800, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{cat.name}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', marginTop: 4 }}>לקנייה ←</div>
                   </div>
-                  <div style={{ fontSize: 13, color: 'var(--gray-700)', fontWeight: 600, lineHeight: 1.3 }}>{cat.name}</div>
                 </Link>
-              </FadeIn>
-            ))}
-          </div>
+              ))}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+              {CATEGORIES.filter(c => !c.red).slice(3).map((cat) => (
+                <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: 160 }}
+                  onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
+                  onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
+                >
+                  <img src={cat.img} alt={cat.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }} />
+                  <div className="ov" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.28)', transition: 'background 0.3s' }} />
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '16px 20px' }}>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{cat.name}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 3 }}>לקנייה ←</div>
+                  </div>
+                </Link>
+              ))}
+              <Link href="/sales" style={{ textDecoration: 'none', borderRadius: 20, overflow: 'hidden', display: 'flex', height: 160, background: 'var(--gold)', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 8 }}>
+                <span style={{ fontSize: 26, fontWeight: 900, color: '#111' }}>מבצעים</span>
+                <span style={{ fontSize: 13, color: '#333', fontWeight: 600 }}>לכל המבצעים ←</span>
+              </Link>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -424,10 +447,14 @@ export default function HomePage() {
           <FadeIn delay={100}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 12 }}>
               {BRANDS.map(b => (
-                <div key={b} style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 12, padding: '22px 8px', textAlign: 'center', fontSize: 14, fontWeight: 700, color: 'var(--gray-700)', cursor: 'pointer', transition: 'all 0.2s' }}
+                <div key={b.name} style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 12, padding: '16px 8px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 80 }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'; el.style.transform = 'translateY(-2px)'; el.style.borderColor = 'var(--gold)'; }}
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = 'none'; el.style.transform = 'translateY(0)'; el.style.borderColor = 'var(--gray-200)'; }}
-                >{b}</div>
+                >
+                  <img src={`https://logo.clearbit.com/${b.domain}`} alt={b.name} style={{ height: 36, maxWidth: '80%', objectFit: 'contain' }}
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.display='none'; (e.currentTarget.nextSibling as HTMLElement).style.display='block'; }} />
+                  <span style={{ display: 'none', fontSize: 13, fontWeight: 700, color: '#333' }}>{b.name}</span>
+                </div>
               ))}
             </div>
           </FadeIn>

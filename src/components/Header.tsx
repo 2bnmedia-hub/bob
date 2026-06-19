@@ -137,20 +137,31 @@ export default function Header() {
       </div>
 
       {/* PILLS */}
-      <div style={{ background: 'var(--cream)', borderBottom: '1px solid var(--cream-dark)' }}>
-        <div className="container" style={{ display: 'flex', gap: 8, padding: '10px 0', direction: 'rtl', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <style>{`
+        .pill-link { display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 0; text-decoration:none; transition:all 0.22s; flex:1; border-left:1px solid rgba(0,0,0,0.06); }
+        .pill-link:last-child { border-left:none; }
+        .pill-link:hover { background:rgba(0,0,0,0.04); }
+        .pill-link:hover span { transform:scale(1.12); }
+        .pill-link:hover svg { transform:scale(1.1); }
+        .pill-link span { display:inline-block; transition:transform 0.22s; }
+        .pill-link svg { transition:transform 0.22s; }
+        .pill-link.gold { background:var(--gold); }
+        .pill-link.gold:hover { background:var(--gold-dark); }
+        .pill-link.red { background:#2D6A4F; }
+        .pill-link.red:hover { background:#1e4f38; }
+      `}</style>
+      <div style={{ background: '#f8f8f8', borderBottom: '1px solid #e8e8e8', borderTop: '1px solid #e8e8e8' }}>
+        <div style={{ display: 'flex', direction: 'rtl', width: '100%' }}>
           {PILLS.map(p => {
             const Icon = p.icon;
             return (
-              <Link key={p.href} href={p.href} style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
-                padding: '10px 18px', borderRadius: 12, fontSize: 14, fontWeight: 600,
-                border: p.gold ? '1.5px solid var(--gold)' : p.red ? '1.5px solid var(--red)' : '1.5px solid var(--gray-200)',
-                background: p.gold ? 'var(--gold)' : p.red ? 'var(--red)' : '#fff',
-                color: p.gold ? 'var(--brown-dark)' : p.red ? '#fff' : 'var(--gray-600)',
-                textDecoration: 'none', minWidth: 80, textAlign: 'center', transition: 'all 0.18s',
-              }}>
-                <Icon size={24} strokeWidth={1.8} />
+              <Link key={p.href} href={p.href}
+                className={`pill-link${p.gold ? ' gold' : p.red ? ' red' : ''}`}
+                style={{
+                  fontSize: 13, fontWeight: 500,
+                  color: p.gold ? '#111' : p.red ? '#fff' : '#444',
+                }}>
+                <Icon size={22} strokeWidth={1.8} />
                 <span>{p.label}</span>
               </Link>
             );
