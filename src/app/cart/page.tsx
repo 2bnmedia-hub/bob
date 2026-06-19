@@ -1,76 +1,148 @@
-"use client";
+'use client';
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { useCart } from "@/context/CartContext";
+import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
+import { Trash2, Plus, Minus, ShoppingCart, ArrowRight } from 'lucide-react';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, total } = useCart();
+  const { items, removeItem, updateQuantity, total, clearCart } = useCart();
+
+  const shipping = total >= 400 ? 0 : 39;
+  const finalTotal = total + shipping;
 
   if (items.length === 0) {
     return (
-      <>
-        <Header />
-        <main className="mx-auto flex min-h-[50vh] max-w-3xl flex-col items-center justify-center px-5 py-20 text-center">
-          <svg className="mb-6 h-16 w-16 text-[var(--color-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 1.9-4.594 2.252-6.75H5.106M7.5 14.25L5.106 5.272M6 19.5a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm14.25 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-          </svg>
-          <h1 className="text-3xl font-black tracking-tight text-[var(--color-ink)]">הסל שלך ריק</h1>
-          <p className="mt-4 text-lg text-[var(--color-muted)]">עדיין לא הוספת מוצרים לסל הקניות.</p>
-          <a href="/" className="mt-9 rounded-full bg-[var(--color-ink)] px-9 py-4 text-base font-semibold text-[var(--color-paper)] transition hover:bg-[var(--color-brown)]">המשך בקנייה</a>
-        </main>
-        <Footer />
-      </>
+      <main style={{ direction: 'rtl', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: '64px var(--px)' }}>
+        <div style={{ background: 'var(--cream)', borderRadius: '50%', width: 100, height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ShoppingCart size={44} strokeWidth={1.5} color="var(--brown)" />
+        </div>
+        <h1 style={{ fontSize: 26, fontWeight: 900, color: 'var(--brown-dark)' }}>הסל שלך ריק</h1>
+        <p style={{ color: 'var(--gray-400)', fontSize: 16 }}>הוסף מוצרים כדי להתחיל</p>
+        <Link href="/" className="btn-secondary" style={{ marginTop: 8 }}>חזור לקנייה</Link>
+      </main>
     );
   }
 
   return (
-    <>
-      <Header />
-      <main className="mx-auto max-w-[96vw] px-5 py-12">
-        <h1 className="mb-8 text-3xl font-black text-[var(--color-ink)]">סל הקניות שלי</h1>
-        <div className="grid gap-8 md:grid-cols-[1fr_320px]">
-          <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--color-line)] bg-[var(--color-paper)]">
-            {items.map(function (item) {
-              return (
-                <div key={item.id} className="flex items-center gap-4 border-b border-[var(--color-line)] p-4 last:border-b-0">
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-[var(--color-surface)]">
-                    {item.image_url ? <img src={item.image_url} alt={item.name} className="h-full w-full object-cover" /> : null}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-[var(--color-ink)]">{item.name}</p>
-                    <p className="mt-1 text-[var(--color-muted)]">₪{item.price}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="h-8 w-8 rounded-full border border-[var(--color-line)]">−</button>
-                    <span className="w-8 text-center">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="h-8 w-8 rounded-full border border-[var(--color-line)]">+</button>
-                  </div>
-                  <p className="w-20 text-end font-bold text-[var(--color-ink)]">₪{item.price * item.quantity}</p>
-                  <button onClick={() => removeItem(item.id)} className="text-red-600">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+    <main style={{ direction: 'rtl', padding: '40px 0', background: 'var(--gray-50)', minHeight: '70vh' }}>
+      <div className="container">
 
-          <div className="h-fit rounded-[var(--radius-md)] border border-[var(--color-line)] bg-[var(--color-paper)] p-5">
-            <div className="flex justify-between text-[var(--color-muted)]">
-              <span>סכום ביניים</span>
-              <span>₪{total}</span>
-            </div>
-            <div className="mt-2 flex justify-between text-xl font-black text-[var(--color-ink)]">
-              <span>סה"כ לתשלום</span>
-              <span>₪{total}</span>
-            </div>
-            <button className="mt-6 w-full rounded-full bg-[var(--color-ink)] py-3.5 font-semibold text-white transition hover:bg-[var(--color-brown)]">
-              המשך לתשלום
+        {/* HEADER */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
+          <Link href="/" style={{ color: 'var(--gray-400)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <ArrowRight size={14} /> דף הבית
+          </Link>
+          <span style={{ color: 'var(--gray-300)' }}>/</span>
+          <span style={{ fontSize: 13, color: 'var(--gray-800)', fontWeight: 600 }}>סל קניות</span>
+        </div>
+
+        <h1 style={{ fontSize: 28, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 24 }}>
+          סל הקניות שלי
+          <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-400)', marginRight: 12 }}>
+            {items.reduce((s, i) => s + i.quantity, 0)} פריטים
+          </span>
+        </h1>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24, alignItems: 'start' }}>
+
+          {/* ITEMS */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {items.map(item => (
+              <div key={item.id} style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 16, padding: 20, display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 20, alignItems: 'center' }}>
+                <div style={{ background: 'var(--gray-100)', borderRadius: 10, height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  {item.image
+                    ? <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <ShoppingCart size={28} strokeWidth={1.5} color="var(--gray-400)" />
+                  }
+                </div>
+
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--gray-800)', marginBottom: 6 }}>{item.name}</div>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--brown)' }}>₪{item.price.toFixed(2)}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      style={{ width: 32, height: 32, border: '1.5px solid var(--gray-200)', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>
+                      <Minus size={14} />
+                    </button>
+                    <span style={{ fontWeight: 700, fontSize: 15, minWidth: 28, textAlign: 'center' }}>{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      style={{ width: 32, height: 32, border: '1.5px solid var(--gray-200)', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>
+                      <Plus size={14} />
+                    </button>
+                    <span style={{ color: 'var(--gray-400)', fontSize: 13, marginRight: 8 }}>
+                      סה״כ: <strong style={{ color: 'var(--gray-800)' }}>₪{(item.price * item.quantity).toFixed(2)}</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <button onClick={() => removeItem(item.id)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--gray-400)', transition: 'color 0.15s', borderRadius: 8 }}
+                  onMouseEnter={e => (e.currentTarget.style.color = 'var(--red)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-400)')}>
+                  <Trash2 size={18} />
+                </button>
+              </div>
+            ))}
+
+            <button onClick={clearCart}
+              style={{ alignSelf: 'flex-start', background: 'none', border: 'none', color: 'var(--gray-400)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', padding: '4px 0', fontFamily: 'var(--font)' }}>
+              נקה סל
             </button>
           </div>
+
+          {/* SUMMARY */}
+          <div style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 20, padding: 28, position: 'sticky', top: 140 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--brown-dark)', marginBottom: 24 }}>סיכום הזמנה</h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--gray-600)' }}>
+                <span>סכום ביניים</span>
+                <span>₪{total.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--gray-600)' }}>
+                <span>משלוח</span>
+                <span style={{ color: shipping === 0 ? '#2D6A4F' : 'inherit', fontWeight: shipping === 0 ? 700 : 400 }}>
+                  {shipping === 0 ? 'חינם' : `₪${shipping}`}
+                </span>
+              </div>
+              {shipping > 0 && (
+                <div style={{ background: '#f0faf5', border: '1px solid #b7e4cc', borderRadius: 10, padding: '10px 14px', fontSize: 13, color: '#2D6A4F', fontWeight: 600 }}>
+                  הוסף עוד ₪{(400 - total).toFixed(2)} לקבלת משלוח חינם
+                </div>
+              )}
+              <div style={{ height: 1, background: 'var(--gray-200)' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 22, fontWeight: 900, color: 'var(--brown-dark)' }}>
+                <span>סה״כ</span>
+                <span>₪{finalTotal.toFixed(2)}</span>
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--gray-400)', textAlign: 'center' }}>כולל מע״מ</div>
+            </div>
+
+            {/* COUPON */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-600)', marginBottom: 8 }}>קוד קופון</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <input type="text" placeholder="הכנס קוד..."
+                  style={{ flex: 1, border: '1.5px solid var(--gray-200)', borderRadius: 8, padding: '9px 12px', fontSize: 13, fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
+                <button className="btn-secondary" style={{ fontSize: 13, padding: '9px 16px' }}>החל</button>
+              </div>
+            </div>
+
+            <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', fontSize: 16, padding: '14px 0', borderRadius: 12 }}>
+              לתשלום
+            </button>
+
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 16 }}>
+              <span style={{ fontSize: 12, color: 'var(--gray-400)', display: 'flex', alignItems: 'center', gap: 4 }}>תשלום מאובטח</span>
+              <span style={{ fontSize: 12, color: 'var(--gray-400)', display: 'flex', alignItems: 'center', gap: 4 }}>החזרה 30 יום</span>
+            </div>
+
+            <div style={{ marginTop: 16, textAlign: 'center' }}>
+              <Link href="/" style={{ fontSize: 13, color: 'var(--brown)', textDecoration: 'underline' }}>המשך בקנייה</Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </main>
   );
 }
