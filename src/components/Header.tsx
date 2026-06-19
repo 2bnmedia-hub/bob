@@ -65,13 +65,13 @@ export default function Header() {
       {/* TOP BAR */}
       <div style={{ background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '5px var(--px)', direction: 'rtl' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#555' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, color: '#555' }}>
             <MapPin size={13} strokeWidth={2} color="#2D6A4F" />
             <span>קריית ים — פתוח 07:00–19:00</span>
           </div>
           <div style={{ display: 'flex', gap: 16 }}>
             {[['צור קשר','/contact'],['אודות','/about'],['שאלות נפוצות','/faq']].map(([l,h]) => (
-              <Link key={h} href={h} style={{ color: '#555', fontSize: 11 }}>{l}</Link>
+              <Link key={h} href={h} style={{ color: '#555', fontSize: 13 }}>{l}</Link>
             ))}
           </div>
         </div>
