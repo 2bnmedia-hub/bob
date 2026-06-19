@@ -237,19 +237,17 @@ export default function HomePage() {
 
       {/* ══ TRUST BAR ══ */}
       <FadeIn>
-        <section style={{ background: 'var(--gray-50)', borderBottom: '1px solid var(--gray-200)', padding: '16px 0' }}>
-          <div className="container" style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap', className: 'trust-bar' }}>
-            <>
-              {([['משלוח חינם מ-₪400', 'truck'],['תשלום מאובטח','lock'],['החזרה תוך 30 יום','return'],['שירות מקצועי','star']] as [string,string][]).map(([text, type]) => (
-                <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--gray-600)', fontWeight: 600 }}>
-                  {type==='truck' && <Truck size={20} strokeWidth={1.8} color="var(--brown)" />}
-                  {type==='lock' && <Lock size={20} strokeWidth={1.8} color="var(--brown)" />}
-                  {type==='return' && <RotateCcw size={20} strokeWidth={1.8} color="var(--brown)" />}
-                  {type==='star' && <Star size={20} strokeWidth={1.8} color="var(--brown)" />}
-                  {text}
-                </div>
-              ))}
-            </>
+        <section style={{ background: 'linear-gradient(135deg, #fafafa 0%, #fff 50%, #fafafa 100%)', borderTop: '1px solid var(--gray-200)', borderBottom: '1px solid var(--gray-200)', padding: '20px 0' }}>
+          <div className="container" style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
+            {([['משלוח חינם מ-₪400', 'truck'],['תשלום מאובטח','lock'],['החזרה תוך 30 יום','return'],['שירות מקצועי','star']] as [string,string][]).map(([text, type]) => (
+              <div key={text} className="trust-item">
+                {type==='truck' && <Truck size={18} strokeWidth={2} color="#F0C040" />}
+                {type==='lock' && <Lock size={18} strokeWidth={2} color="#F0C040" />}
+                {type==='return' && <RotateCcw size={18} strokeWidth={2} color="#F0C040" />}
+                {type==='star' && <Star size={18} strokeWidth={2} color="#F0C040" />}
+                {text}
+              </div>
+            ))}
           </div>
         </section>
       </FadeIn>
