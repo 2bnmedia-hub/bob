@@ -3,25 +3,59 @@ import { useState, useRef, useEffect } from 'react';
 import { X, Send } from 'lucide-react';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
+type BobState = 'wave' | 'talk' | 'idle';
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
+  const [bobState, setBobState] = useState<BobState>('wave');
   const [messages, setMessages] = useState<Msg[]>([
     { role: 'assistant', content: 'שלום! אני בוב 👷 איך אפשר לעזור היום?' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
+  // כניסה לדף — מציג גל שלום
   useEffect(() => {
-    const t = setTimeout(() => setShown(true), 1800);
+    const t = setTimeout(() => {
+      setShown(true);
+      setBobState('wave');
+      // אחרי 3 שניות חוזר ל-idle
+      setTimeout(() => setBobState('idle'), 3000);
+    }, 1500);
     return () => clearTimeout(t);
   }, []);
+
+  // מחליף סרטון לפי מצב
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(() => {});
+    }
+  }, [bobState]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, open]);
+
+  function getVideoSrc(): string {
+    if (bobState === 'wave') return '/bob-wave.mp4';
+    if (bobState === 'talk') return '/bob-talk.mp4';
+    return '/bob-wave.mp4';
+  }
+
+  function handleOpenChat() {
+    setOpen(true);
+    setBobState('talk');
+  }
+
+  function handleCloseChat() {
+    setOpen(false);
+    setBobState('wave');
+    setTimeout(() => setBobState('idle'), 2000);
+  }
 
   async function send() {
     if (!input.trim() || loading) return;
@@ -29,6 +63,7 @@ export default function ChatWidget() {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setLoading(true);
+    setBobState('talk');
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -41,56 +76,33 @@ export default function ChatWidget() {
       setMessages(prev => [...prev, { role: 'assistant', content: 'שגיאה, נסה שוב' }]);
     }
     setLoading(false);
+    // אחרי תשובה ממשיך talk כל עוד הצ'אט פתוח
   }
 
   return (
     <>
       <style>{`
         @keyframes bobRise {
-          0%   { transform: translateY(140px); opacity: 0; }
-          60%  { transform: translateY(-12px); opacity: 1; }
-          80%  { transform: translateY(6px); }
+          0%   { transform: translateY(160px); opacity: 0; }
+          60%  { transform: translateY(-10px); opacity: 1; }
           100% { transform: translateY(0); opacity: 1; }
         }
-        @keyframes bobFloat {
-          0%,100% { transform: translateY(0px) rotate(0deg); }
-          30%     { transform: translateY(-10px) rotate(-1deg); }
-          70%     { transform: translateY(-6px) rotate(1deg); }
-        }
-        @keyframes bobTalk {
-          0%,100% { transform: translateY(0px) rotate(0deg) scale(1); }
-          20%     { transform: translateY(-8px) rotate(-2deg) scale(1.02); }
-          50%     { transform: translateY(-12px) rotate(1.5deg) scale(1.01); }
-          80%     { transform: translateY(-6px) rotate(-1deg) scale(1.02); }
-        }
-        @keyframes bobThink {
-          0%,100% { transform: translateY(0) rotate(0deg); }
-          50%     { transform: translateY(-5px) rotate(3deg); }
-        }
-        @keyframes shadowPulse {
-          0%,100% { transform: scaleX(1); opacity: 0.18; }
-          50%     { transform: scaleX(0.75); opacity: 0.09; }
-        }
         @keyframes bubblePop {
-          0%   { transform: scale(0) translateY(16px); opacity: 0; }
-          65%  { transform: scale(1.06) translateY(-3px); opacity: 1; }
-          100% { transform: scale(1) translateY(0); opacity: 1; }
+          0%   { transform: scale(0) translateY(10px); opacity: 0; }
+          70%  { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes chatSlide {
+          from { transform: translateY(16px) scale(0.97); opacity: 0; }
+          to   { transform: translateY(0) scale(1); opacity: 1; }
         }
         @keyframes dotPulse {
           0%,80%,100% { transform: scale(0.6); opacity: 0.4; }
           40%         { transform: scale(1); opacity: 1; }
         }
-        @keyframes chatSlide {
-          from { transform: translateY(20px) scale(0.95); opacity: 0; }
-          to   { transform: translateY(0) scale(1); opacity: 1; }
-        }
-        .bob-rise    { animation: bobRise 0.9s cubic-bezier(0.34,1.3,0.64,1) forwards; }
-        .bob-float   { animation: bobFloat 3.2s ease-in-out infinite; }
-        .bob-talk    { animation: bobTalk 0.5s ease-in-out infinite; }
-        .bob-think   { animation: bobThink 1s ease-in-out infinite; }
-        .bob-shadow  { animation: shadowPulse 3.2s ease-in-out infinite; }
-        .bubble-pop  { animation: bubblePop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-        .chat-slide  { animation: chatSlide 0.3s ease forwards; }
+        .bob-rise   { animation: bobRise 0.8s cubic-bezier(0.34,1.3,0.64,1) forwards; }
+        .bubble-pop { animation: bubblePop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .chat-slide { animation: chatSlide 0.3s ease forwards; }
         .dot1 { animation: dotPulse 1.2s ease-in-out infinite 0s; }
         .dot2 { animation: dotPulse 1.2s ease-in-out infinite 0.2s; }
         .dot3 { animation: dotPulse 1.2s ease-in-out infinite 0.4s; }
@@ -108,24 +120,26 @@ export default function ChatWidget() {
               width: 320, background: '#fff', borderRadius: 20,
               boxShadow: '0 8px 40px rgba(0,0,0,0.15)',
               display: 'flex', flexDirection: 'column', overflow: 'hidden',
-              direction: 'rtl', maxHeight: 400, marginBottom: 8,
+              direction: 'rtl', maxHeight: 420, marginBottom: 8,
               border: '1.5px solid #FCD34D',
             }}>
+              {/* Header */}
               <div style={{ background: '#FCD34D', padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#fff', overflow: 'hidden' }}>
-                    <img src="/bob-character.png" alt="בוב" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+                  <div style={{ width: 32, height: 32, borderRadius: '50%', overflow: 'hidden', background: '#fff' }}>
+                    <video src="/bob-talk.mp4" autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                   <div>
                     <div style={{ fontWeight: 800, fontSize: 14, color: '#111' }}>בוב — חומרי בניין</div>
                     <div style={{ fontSize: 11, color: '#444' }}>🟢 מחובר · עונה תוך שניות</div>
                   </div>
                 </div>
-                <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                <button onClick={handleCloseChat} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                   <X size={18} color="#111" />
                 </button>
               </div>
 
+              {/* הודעות */}
               <div style={{ flex: 1, overflowY: 'auto', padding: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {messages.map((m, i) => (
                   <div key={i} style={{
@@ -149,6 +163,7 @@ export default function ChatWidget() {
                 <div ref={bottomRef} />
               </div>
 
+              {/* Input */}
               <div style={{ padding: '10px 12px', borderTop: '1px solid #F0F0F0', display: 'flex', gap: 8 }}>
                 <input
                   value={input}
@@ -168,45 +183,41 @@ export default function ChatWidget() {
             </div>
           )}
 
-          {/* בועת פתיחה */}
+          {/* בועת פתיחה — מופיעה מעל הדמות */}
           {!open && (
-            <div className="bubble-pop" onClick={() => setOpen(true)} style={{
-              background: '#fff', borderRadius: '18px 18px 18px 4px',
+            <div className="bubble-pop" onClick={handleOpenChat} style={{
+              background: '#fff', borderRadius: '16px 16px 16px 4px',
               boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-              padding: '12px 16px', marginBottom: 6, maxWidth: 210,
+              padding: '10px 14px', marginBottom: 4, maxWidth: 200,
               fontSize: 13, lineHeight: 1.6, color: '#111',
               border: '1.5px solid #FCD34D', cursor: 'pointer',
               position: 'relative',
             }}>
               <strong style={{ display: 'block', marginBottom: 2 }}>היי! אני בוב 👷</strong>
-              יש שאלה על המוצרים?<br/>אני כאן לעזור!
+              יש שאלה? אני כאן לעזור!
             </div>
           )}
 
-          {/* דמות בוב */}
+          {/* דמות בוב — וידאו */}
           <div className="bob-rise">
-            <div style={{ position: 'relative', width: 110 }}>
-              {/* צל */}
-              <div className="bob-shadow" style={{
-                width: 80, height: 12, background: '#000',
-                borderRadius: '50%', margin: '0 auto',
-                opacity: 0.18,
-              }}/>
-              <img
-                src="/bob-character.png"
-                alt="בוב"
-                onClick={() => setOpen(o => !o)}
-                className={loading ? 'bob-think' : 'bob-float'}
-                style={{
-                  width: 110, height: 'auto',
-                  cursor: 'pointer',
-                  display: 'block',
-                  filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.18))',
-                  marginTop: -8,
-                  userSelect: 'none',
-                }}
-              />
-            </div>
+            <video
+              ref={videoRef}
+              key={bobState}
+              autoPlay
+              loop={bobState === 'idle'}
+              muted
+              playsInline
+              onClick={open ? handleCloseChat : handleOpenChat}
+              style={{
+                width: 150,
+                height: 'auto',
+                cursor: 'pointer',
+                display: 'block',
+                mixBlendMode: 'multiply',
+              }}
+            >
+              <source src={getVideoSrc()} type="video/mp4" />
+            </video>
           </div>
 
         </div>
