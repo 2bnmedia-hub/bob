@@ -198,7 +198,7 @@ export default function HomePage() {
         {/* TEXT */}
         <div className="container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center' }}>
           <div className="hero-text" key={`text-${heroIdx}`} style={{ maxWidth: 520 }}>
-            <span style={{ background: 'var(--gold)', color: 'var(--brown-dark)', fontSize: 12, fontWeight: 700, padding: '4px 14px', borderRadius: 20, display: 'inline-block', marginBottom: 16 }}>{hero.badge}</span>
+            <span style={{ background: 'var(--gold)', color: '#111', fontSize: 12, fontWeight: 700, padding: '4px 14px', borderRadius: 20, display: 'inline-block', marginBottom: 16 }}>{hero.badge}</span>
             <h1 style={{ fontSize: 'clamp(36px,5vw,60px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 16, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{hero.title}</h1>
             <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.88)', marginBottom: 28, lineHeight: 1.6 }}>{hero.sub}</p>
             <button className="btn-primary" style={{ fontSize: 16, padding: '13px 32px', borderRadius: 10 }}>{hero.btn}</button>
@@ -246,9 +246,9 @@ export default function HomePage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 }}>
               <div>
                 <div style={{ fontSize: 13, color: 'var(--gold-dark)', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>מבצעים מיוחדים</div>
-                <h2 style={{ fontSize: 32, fontWeight: 900, color: 'var(--brown-dark)' }}>העסקאות הכי שוות</h2>
+                <h2 style={{ fontSize: 32, fontWeight: 900, color: '#111' }}>העסקאות הכי שוות</h2>
               </div>
-              <Link href="/sales" style={{ fontSize: 14, fontWeight: 700, color: 'var(--brown)', textDecoration: 'underline' }}>כל המבצעים ←</Link>
+              <Link href="/sales" style={{ fontSize: 14, fontWeight: 700, color: '#222', textDecoration: 'underline' }}>כל המבצעים ←</Link>
             </div>
           </FadeIn>
           <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: 20, alignItems: 'start' }}>
@@ -373,7 +373,7 @@ export default function HomePage() {
         <div className="container">
           <FadeIn>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
-              <h2 style={{ fontSize: 32, fontWeight: 900, color: 'var(--brown-dark)' }}>קטגוריות מובילות</h2>
+              <h2 style={{ fontSize: 32, fontWeight: 900, color: '#111' }}>קטגוריות מובילות</h2>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['הכל','מכסחות','גריל','כלי חשמל','גינון'].map((tab, i) => (
                   <button key={tab} onClick={() => setCatTab(i)} style={{ padding: '7px 18px', fontSize: 13, fontWeight: 600, border: '1.5px solid', borderColor: i === catTab ? 'var(--brown)' : 'var(--gray-200)', cursor: 'pointer', fontFamily: 'var(--font)', background: i === catTab ? 'var(--brown)' : '#fff', color: i === catTab ? 'var(--gold)' : 'var(--gray-600)', borderRadius: 8, transition: 'all 0.2s' }}>{tab}</button>
@@ -407,7 +407,7 @@ export default function HomePage() {
                   <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80" alt="טיפ" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: 32, background: 'var(--gray-50)' }}>
-                  <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--brown)', marginBottom: 12 }}>טיפ מקצועי — {['שיפוץ','גינון','ארגון','צביעה'][editTab]}</h3>
+                  <h3 style={{ fontSize: 20, fontWeight: 800, color: '#222', marginBottom: 12 }}>טיפ מקצועי — {['שיפוץ','גינון','ארגון','צביעה'][editTab]}</h3>
                   <p style={{ fontSize: 15, color: 'var(--gray-600)', marginBottom: 20, lineHeight: 1.7 }}>מדריך מקיף לעבודה מקצועית עם חומרים וכלים נכונים. כל מה שצריך לדעת לפני שמתחילים — מהכנת השטח ועד הגימור הסופי.</p>
                   <button className="btn-secondary" style={{ fontSize: 13, padding: '10px 24px' }}>קרא עוד</button>
                 </div>
@@ -459,7 +459,7 @@ export default function HomePage() {
               </div>
             ))}
             <div style={{ background: 'var(--gold)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 4 }}>BOB</div>
+              <div style={{ fontSize: 22, fontWeight: 900, color: '#111', marginBottom: 4 }}>BOB</div>
               <div style={{ fontSize: 13, fontWeight: 700, color: '#333', letterSpacing: 3, marginBottom: 20 }}>REWARDS</div>
               <Link href="#" style={{ display: 'block', color: '#333', fontSize: 13, marginBottom: 8 }}>למד עוד</Link>
               <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
@@ -470,7 +470,7 @@ export default function HomePage() {
               <div style={{ fontSize: 15, color: '#222', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
               <div style={{ display: 'flex' }}>
                 <input type="email" placeholder="הכנס כתובת אימייל" style={{ border: 'none', padding: '11px 18px', fontSize: 14, width: 260, borderRadius: '8px 0 0 8px', fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
-                <button style={{ background: 'var(--gold)', color: 'var(--brown-dark)', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '0 8px 8px 0', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
+                <button style={{ background: 'var(--gold)', color: '#111', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '0 8px 8px 0', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
               </div>
             </div>
             <div style={{ display: 'flex', gap: 20 }}>
@@ -483,7 +483,7 @@ export default function HomePage() {
             </div>
           </div>
           <div style={{ borderTop: '1px solid #DDD', padding: '16px 0', textAlign: 'center', fontSize: 12, color: '#888' }}>
-            © 2025 בוב חומרי בניין קריית ים. כל הזכויות שמורות.
+            © 2025 בוב חומרי בניין קריית ים. כל הזכויות שמורות. | עיצוב ובנייה: <a href="https://2bnmedia.com" target="_blank" rel="noopener noreferrer" style={{color:"#2D6A4F",fontWeight:700,textDecoration:"underline"}}>2bnmedia.com</a>
           </div>
         </div>
       </footer>

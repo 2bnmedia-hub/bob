@@ -20,7 +20,7 @@ export default function AccountPage() {
           <div style={{ width: 64, height: 64, background: 'var(--cream)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
             <User size={28} strokeWidth={1.8} color="var(--brown)" />
           </div>
-          <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--brown-dark)' }}>
+          <h1 style={{ fontSize: 24, fontWeight: 900, color: '#111' }}>
             {tab === 'login' ? 'כניסה לחשבון' : 'יצירת חשבון'}
           </h1>
         </div>
@@ -78,7 +78,7 @@ export default function AccountPage() {
 
             {tab === 'login' && (
               <div style={{ textAlign: 'left' }}>
-                <a href="#" style={{ fontSize: 13, color: 'var(--brown)', textDecoration: 'underline' }}>שכחת סיסמה?</a>
+                <a href="#" style={{ fontSize: 13, color: '#222', textDecoration: 'underline' }}>שכחת סיסמה?</a>
               </div>
             )}
 

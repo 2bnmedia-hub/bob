@@ -2,7 +2,7 @@ export default function AccessibilityPage() {
   return (
     <main style={{ direction: 'rtl', padding: '64px 0' }}>
       <div className="container" style={{ maxWidth: 800, margin: '0 auto' }}>
-        <h1 style={{ fontSize: 36, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 32 }}>הצהרת נגישות</h1>
+        <h1 style={{ fontSize: 36, fontWeight: 900, color: '#111', marginBottom: 32 }}>הצהרת נגישות</h1>
         <div style={{ fontSize: 15, color: 'var(--gray-600)', lineHeight: 2, display: 'flex', flexDirection: 'column', gap: 24 }}>
           <p>בוב חומרי בניין מחויב להנגיש את האתר לכלל הציבור, לרבות אנשים עם מוגבלויות, בהתאם לתקן הישראלי IS 5568 ולהנחיות WCAG 2.1 ברמה AA.</p>
           {[
@@ -11,7 +11,7 @@ export default function AccessibilityPage() {
             ['עדכון אחרון', 'הצהרה זו עודכנה בינואר 2025.'],
           ].map(([title, text]) => (
             <div key={title as string}>
-              <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--brown)', marginBottom: 8 }}>{title}</h2>
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: '#222', marginBottom: 8 }}>{title}</h2>
               <p>{text}</p>
             </div>
           ))}

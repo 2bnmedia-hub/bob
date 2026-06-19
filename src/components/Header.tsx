@@ -38,7 +38,7 @@ export default function Header() {
     <header style={{ position: 'sticky', top: 0, zIndex: 100, background: '#fff', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
 
       {/* TOP BAR */}
-      <div style={{ background: 'var(--brown)', color: 'var(--gold-light)', padding: '5px var(--px)', direction: 'rtl' }}>
+      <div style={{ background: '#fff', color: '#111', padding: '5px var(--px)', direction: 'rtl' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12 }}>
             <MapPin size={13} strokeWidth={2} />
@@ -46,7 +46,7 @@ export default function Header() {
           </div>
           <div style={{ display: 'flex', gap: 20 }}>
             {[['צור קשר','/contact'],['אודות','/about'],['שאלות נפוצות','/faq']].map(([l,h]) => (
-              <Link key={h} href={h} style={{ color: 'var(--gold-light)', fontSize: 12 }}>{l}</Link>
+              <Link key={h} href={h} style={{ color: '#333', fontSize: 12 }}>{l}</Link>
             ))}
           </div>
         </div>
@@ -64,7 +64,7 @@ export default function Header() {
           {/* NAV */}
           <nav style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
             {NAV_LINKS.map(l => (
-              <Link key={l.href} href={l.href} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 600, color: 'var(--brown)', padding: '7px 12px', borderRadius: 6 }}>
+              <Link key={l.href} href={l.href} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 600, color: '#111', padding: '7px 12px', borderRadius: 6 }}>
                 {l.label} <ChevronDown size={14} strokeWidth={2.5} />
               </Link>
             ))}
@@ -86,11 +86,11 @@ export default function Header() {
 
           {/* USER + CART */}
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexShrink: 0 }}>
-            <Link href="/account" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, color: 'var(--brown)', fontSize: 11, fontWeight: 600, textDecoration: 'none' }}>
+            <Link href="/account" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, color: '#111', fontSize: 11, fontWeight: 600, textDecoration: 'none' }}>
               <User size={22} strokeWidth={1.8} />
               <span>כניסה</span>
             </Link>
-            <Link href="/cart" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, color: 'var(--brown)', fontSize: 11, fontWeight: 600, textDecoration: 'none' }}>
+            <Link href="/cart" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, color: '#111', fontSize: 11, fontWeight: 600, textDecoration: 'none' }}>
               <ShoppingCart size={22} strokeWidth={1.8} />
               <span>סל קניות</span>
               {count > 0 && (

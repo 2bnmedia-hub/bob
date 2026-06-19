@@ -16,7 +16,7 @@ export default function CartPage() {
         <div style={{ background: 'var(--cream)', borderRadius: '50%', width: 100, height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ShoppingCart size={44} strokeWidth={1.5} color="var(--brown)" />
         </div>
-        <h1 style={{ fontSize: 26, fontWeight: 900, color: 'var(--brown-dark)' }}>הסל שלך ריק</h1>
+        <h1 style={{ fontSize: 26, fontWeight: 900, color: '#111' }}>הסל שלך ריק</h1>
         <p style={{ color: 'var(--gray-400)', fontSize: 16 }}>הוסף מוצרים כדי להתחיל</p>
         <Link href="/" className="btn-secondary" style={{ marginTop: 8 }}>חזור לקנייה</Link>
       </main>
@@ -36,7 +36,7 @@ export default function CartPage() {
           <span style={{ fontSize: 13, color: 'var(--gray-800)', fontWeight: 600 }}>סל קניות</span>
         </div>
 
-        <h1 style={{ fontSize: 28, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 24 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 900, color: '#111', marginBottom: 24 }}>
           סל הקניות שלי
           <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--gray-400)', marginRight: 12 }}>
             {items.reduce((s, i) => s + i.quantity, 0)} פריטים
@@ -58,7 +58,7 @@ export default function CartPage() {
 
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--gray-800)', marginBottom: 6 }}>{item.name}</div>
-                  <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--brown)' }}>₪{item.price.toFixed(2)}</div>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: '#222' }}>₪{item.price.toFixed(2)}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
                     <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
                       style={{ width: 32, height: 32, border: '1.5px solid var(--gray-200)', borderRadius: 8, background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>
@@ -92,7 +92,7 @@ export default function CartPage() {
 
           {/* SUMMARY */}
           <div style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 20, padding: 28, position: 'sticky', top: 140 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--brown-dark)', marginBottom: 24 }}>סיכום הזמנה</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: '#111', marginBottom: 24 }}>סיכום הזמנה</h2>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: 'var(--gray-600)' }}>
@@ -111,7 +111,7 @@ export default function CartPage() {
                 </div>
               )}
               <div style={{ height: 1, background: 'var(--gray-200)' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 22, fontWeight: 900, color: 'var(--brown-dark)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 22, fontWeight: 900, color: '#111' }}>
                 <span>סה״כ</span>
                 <span>₪{finalTotal.toFixed(2)}</span>
               </div>
@@ -138,7 +138,7 @@ export default function CartPage() {
             </div>
 
             <div style={{ marginTop: 16, textAlign: 'center' }}>
-              <Link href="/" style={{ fontSize: 13, color: 'var(--brown)', textDecoration: 'underline' }}>המשך בקנייה</Link>
+              <Link href="/" style={{ fontSize: 13, color: '#222', textDecoration: 'underline' }}>המשך בקנייה</Link>
             </div>
           </div>
         </div>

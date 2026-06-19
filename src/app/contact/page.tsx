@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <main style={{ direction: 'rtl', padding: '64px 0' }}>
       <div className="container">
-        <h1 style={{ fontSize: 36, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 8, textAlign: 'center' }}>צור קשר</h1>
+        <h1 style={{ fontSize: 36, fontWeight: 900, color: '#111', marginBottom: 8, textAlign: 'center' }}>צור קשר</h1>
         <p style={{ textAlign: 'center', color: 'var(--gray-600)', marginBottom: 48 }}>נשמח לשמוע ממך</p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
@@ -42,7 +42,7 @@ export default function ContactPage() {
           {sent ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, background: 'var(--cream)', borderRadius: 20, padding: 48 }}>
               <div style={{ fontSize: 48 }}>✓</div>
-              <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--brown)' }}>הודעתך נשלחה!</h2>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: '#222' }}>הודעתך נשלחה!</h2>
               <p style={{ color: 'var(--gray-600)' }}>נחזור אליך בהקדם</p>
             </div>
           ) : (
