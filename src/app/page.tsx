@@ -51,25 +51,25 @@ const HERO_SLIDES = [
     sub: 'כל מה שצריך לפרויקט — במקום אחד',
     btn: 'לקטלוג',
     badge: 'קיץ 2025',
-    img: 'https://images.unsplash.com/photo-1590725140246-20acddc1ec6d?w=1400&q=90',
+    img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90',
     overlay: 'rgba(30,50,15,0.5)',
   },
 ];
 
 const PROMO_PRODUCTS = [
-  { id: 'p1', name: 'ערכת כלים מקצועית 18 חלקים', price: 280, was: 350, rating: 4.5, reviews: 1234, img: 'https://images.unsplash.com/photo-1609205807107-43d095e9d6e9?w=600&q=90' },
+  { id: 'p1', name: 'ערכת כלים מקצועית 18 חלקים', price: 280, was: 350, rating: 4.5, reviews: 1234, img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=90' },
   { id: 'p2', name: 'מקדחה נטענת 18V עם מטען', price: 160, was: 200, rating: 4.0, reviews: 567, img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=90' },
-  { id: 'p3', name: 'מסור עגול מקצועי 185mm', price: 380, was: 450, rating: 5.0, reviews: 89, img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=90' },
-  { id: 'p4', name: 'גנרטור נייד 2000W', price: 420, was: 520, rating: 4.0, reviews: 321, img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=90' },
+  { id: 'p3', name: 'מסור עגול מקצועי 185mm', price: 380, was: 450, rating: 5.0, reviews: 89, img: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?w=800&q=90' },
+  { id: 'p4', name: 'גנרטור נייד 2000W', price: 420, was: 520, rating: 4.0, reviews: 321, img: 'https://images.unsplash.com/photo-1759692071712-adc78a8516c8?w=600&q=90' },
 ];
 
 const FEATURED_PRODUCTS = [
   { id: 'f1', name: 'מכונת גרס ענפים 2400W', price: 749, was: 850, rating: 4.5, reviews: 1200, img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=90' },
-  { id: 'f2', name: 'מרתך MIG מקצועי 160A', price: 499, was: 750, rating: 4.0, reviews: 500, img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=90' },
+  { id: 'f2', name: 'מרתך MIG מקצועי 160A', price: 499, was: 750, rating: 4.0, reviews: 500, img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=90' },
   { id: 'f3', name: 'מזרקת גז 4 להבות', price: 300, was: 430, rating: 5.0, reviews: 200, img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=90' },
-  { id: 'f4', name: 'סולם אלומיניום 3 מטר', price: 389, was: 580, rating: 4.0, reviews: 400, img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=90' },
-  { id: 'f5', name: 'מרסס חשמלי 650W', price: 259, was: 350, rating: 4.5, reviews: 800, img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=90' },
-  { id: 'f6', name: 'מוט בטון Ø10 6מ׳', price: 120, was: 140, rating: 4.0, reviews: 3400, img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=90' },
+  { id: 'f4', name: 'סולם אלומיניום 3 מטר', price: 389, was: 580, rating: 4.0, reviews: 400, img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=90' },
+  { id: 'f5', name: 'מרסס חשמלי 650W', price: 259, was: 350, rating: 4.5, reviews: 800, img: 'https://images.unsplash.com/photo-1745092707630-c00ef0a006c4?w=600&q=90' },
+  { id: 'f6', name: 'מוט בטון Ø10 6מ׳', price: 120, was: 140, rating: 4.0, reviews: 3400, img: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?w=800&q=90' },
 ];
 
 const CATEGORIES = [
@@ -77,11 +77,11 @@ const CATEGORIES = [
   { name: 'בניין ושיפוץ', href: '/category/building', img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=90' },
   { name: 'כלי עבודה', href: '/category/tools', img: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&q=90' },
   { name: 'חשמל', href: '/category/electric', img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=90' },
-  { name: 'צבע וגימור', href: '/category/paint', img: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800&q=90' },
-  { name: 'אינסטלציה', href: '/category/plumbing', img: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=90' },
+  { name: 'צבע וגימור', href: '/category/paint', img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=90' },
+  { name: 'אינסטלציה', href: '/category/plumbing', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=90' },
   { name: 'גינה וחוץ', href: '/category/garden', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=90' },
   { name: 'דלתות וחלונות', href: '/category/doors', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=90' },
-  { name: 'ריצוף', href: '/category/flooring', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=90' },
+  { name: 'ריצוף', href: '/category/flooring', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=90' },
 ];
 
 const BRANDS = [
@@ -268,7 +268,7 @@ export default function HomePage() {
             {/* BANNER */}
             <FadeIn>
               <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: '100%', minHeight: 400 }}>
-                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=90" alt="מבצע" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src="https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?w=800&q=90" alt="מבצע" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(45,106,79,0.92) 40%, rgba(45,106,79,0.4) 100%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, padding: 28, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginBottom: 6, fontWeight: 600 }}>מותג מוביל</div>
@@ -386,8 +386,8 @@ export default function HomePage() {
           </FadeIn>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, alignItems: 'stretch' }}>
             {[
-              { n: '₪300', sub: 'חסוך על ציוד בנייה נבחר', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=90', dark: true, height: 'auto' },
-              { n: '₪4', sub: 'על חומרי איטום', img: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&q=90', dark: false },
+              { n: '₪300', sub: 'חסוך על ציוד בנייה נבחר', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=90', dark: true, height: 'auto' },
+              { n: '₪4', sub: 'על חומרי איטום', img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&q=90', dark: false },
               { n: '₪40', sub: 'על סולמות נבחרים', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=90', dark: false },
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 100}>
