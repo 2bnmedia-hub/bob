@@ -468,7 +468,8 @@ export default function HomePage() {
                   onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = 'none'; el.style.transform = 'translateY(0)'; el.style.borderColor = 'var(--gray-200)'; }}
                 >
                   <img src={`https://logo.clearbit.com/${b.domain}`} alt={b.name} style={{ height: 36, maxWidth: '80%', objectFit: 'contain' }}
-                    onError={e => { (e.currentTarget as HTMLImageElement).style.display='none'; (e.currentTarget.nextSibling as HTMLElement).style.display='block'; }} />
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.display='none'; (e.currentTarget.nextSibling as HTMLElement).style.display='block'; }}
+                    onLoad={e => { const img = e.currentTarget as HTMLImageElement; if (img.naturalWidth === 0) { img.style.display='none'; (img.nextSibling as HTMLElement).style.display='block'; } }} />
                   <span style={{ display: 'none', fontSize: 13, fontWeight: 700, color: '#333' }}>{b.name}</span>
                 </div>
               ))}
