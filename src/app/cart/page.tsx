@@ -43,7 +43,7 @@ export default function CartPage() {
           </span>
         </h1>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24, alignItems: 'start' }}>
+        <div className="cart-grid" style={{ display: 'grid', gridTemplateColumns: 'clamp(1fr, 100%, 1fr) clamp(0px, 360px, 360px)', gap: 24, alignItems: 'start' }}>
 
           {/* ITEMS */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

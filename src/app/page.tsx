@@ -200,7 +200,7 @@ export default function HomePage() {
       <style>{css}</style>
 
       {/* ══ HERO ══ */}
-      <section style={{ position: 'relative', height: 520, overflow: 'hidden' }}>
+      <section style={{ position: 'relative', height: 'clamp(280px, 55vw, 520px)', overflow: 'hidden' }}>
         {/* BG IMAGE */}
         <img
           key={heroIdx}
@@ -214,8 +214,8 @@ export default function HomePage() {
         <div className="container" style={{ position: 'relative', zIndex: 2, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingRight: '8%', paddingLeft: '8%' }}>
           <div className="hero-text" key={`text-${heroIdx}`} style={{ maxWidth: 520 }}>
             <span style={{ background: 'var(--gold)', color: '#111', fontSize: 12, fontWeight: 700, padding: '4px 14px', borderRadius: 20, display: 'inline-block', marginBottom: 16 }}>{hero.badge}</span>
-            <h1 style={{ fontSize: 'clamp(36px,5vw,60px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 16, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{hero.title}</h1>
-            <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.88)', marginBottom: 28, lineHeight: 1.6 }}>{hero.sub}</p>
+            <h1 style={{ fontSize: 'clamp(24px,5vw,60px)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: 16, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{hero.title}</h1>
+            <p style={{ fontSize: 'clamp(13px,2vw,18px)', color: 'rgba(255,255,255,0.88)', marginBottom: 28, lineHeight: 1.6 }}>{hero.sub}</p>
             <button className="btn-primary" style={{ fontSize: 16, padding: '13px 32px', borderRadius: 10 }}>{hero.btn}</button>
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function HomePage() {
       {/* ══ TRUST BAR ══ */}
       <FadeIn>
         <section style={{ background: 'var(--gray-50)', borderBottom: '1px solid var(--gray-200)', padding: '16px 0' }}>
-          <div className="container" style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap' }}>
+          <div className="container" style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap', className: 'trust-bar' }}>
             <>
               {([['משלוח חינם מ-₪400', 'truck'],['תשלום מאובטח','lock'],['החזרה תוך 30 יום','return'],['שירות מקצועי','star']] as [string,string][]).map(([text, type]) => (
                 <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--gray-600)', fontWeight: 600 }}>
@@ -281,7 +281,7 @@ export default function HomePage() {
               </div>
             </FadeIn>
             {/* PRODUCTS */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="products-grid-4">
               {PROMO_PRODUCTS.map((p, i) => (
                 <FadeIn key={p.id} delay={i * 80}>
                   <ProductCard product={p} badge="ONLINE DEAL" />
@@ -299,7 +299,7 @@ export default function HomePage() {
             <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', minHeight: 180 }}>
               <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&q=80" alt="מבצע" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,106,79,0.82)' }} />
-              <div style={{ position: 'relative', zIndex: 1, padding: '40px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ position: 'relative', zIndex: 1, padding: '40px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
                 <div>
                   <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 6 }}>מבצע מיוחד</div>
                   <h2 style={{ fontSize: 28, fontWeight: 900, color: '#fff' }}>מצא את המתנה המושלמת לכל פרויקט</h2>
@@ -404,7 +404,7 @@ export default function HomePage() {
               </div>
             </div>
           </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 16 }} className="featured-grid">
             {FEATURED_PRODUCTS.map((p, i) => (
               <FadeIn key={p.id} delay={i * 60}>
                 <ProductCard product={p} badge="SALE" />
@@ -445,7 +445,7 @@ export default function HomePage() {
         <div className="container">
           <FadeIn><h2 className="section-title">המותגים המובילים תחת קורת גג אחת</h2></FadeIn>
           <FadeIn delay={100}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 12 }} className="brands-grid">
               {BRANDS.map(b => (
                 <div key={b.name} style={{ background: '#fff', border: '1px solid var(--gray-200)', borderRadius: 12, padding: '16px 8px', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 80 }}
                   onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.1)'; el.style.transform = 'translateY(-2px)'; el.style.borderColor = 'var(--gold)'; }}

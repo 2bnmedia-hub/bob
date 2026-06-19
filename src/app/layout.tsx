@@ -3,6 +3,12 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/Header";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "בוב חומרי בניין",
   description: "כל מה שצריך לבנייה ושיפוץ — חומרי בניין, כלי עבודה ומצרכי בית.",
