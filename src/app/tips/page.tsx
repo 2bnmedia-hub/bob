@@ -1,3 +1,4 @@
+'use client';
 export default function TipsPage() {
   const tips = [
     { title: 'כיצד לבחור צבע לקירות', cat: 'צביעה', img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=400&q=80', desc: 'מדריך מקיף לבחירת הגוון הנכון לכל חדר.' },

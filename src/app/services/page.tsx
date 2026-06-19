@@ -1,3 +1,4 @@
+'use client';
 export default function ServicesPage() {
   const services = [
     { title: 'שכפול מפתחות', desc: 'שכפול מפתחות לכל סוגי המנעולים במקום תוך דקות', icon: '🔑' },
