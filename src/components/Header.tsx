@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
@@ -69,9 +69,12 @@ export default function Header() {
             <MapPin size={13} strokeWidth={2} color="#2D6A4F" />
             <span>קריית ים — פתוח 07:00–19:00</span>
           </div>
-          <div style={{ display: 'flex', gap: 16 }}>
-            {[['צור קשר','/contact'],['אודות','/about'],['שאלות נפוצות','/faq']].map(([l,h]) => (
-              <Link key={h} href={h} style={{ color: '#555', fontSize: 13 }}>{l}</Link>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            {[['צור קשר','/contact'],['אודות','/about'],['שאלות נפוצות','/faq']].map(([l,h], i) => (
+              <Fragment key={h}>
+                {i > 0 && <span style={{ width: 1, height: 12, background: '#ddd' }} />}
+                <Link href={h} style={{ color: '#555', fontSize: 13 }}>{l}</Link>
+              </Fragment>
             ))}
           </div>
         </div>
