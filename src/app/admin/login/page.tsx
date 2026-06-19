@@ -2,12 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseAuth = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { supabase } from '@/lib/supabase'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -20,10 +15,10 @@ export default function AdminLoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const { error } = await supabaseAuth.auth.signInWithPassword({ email, password })
-    if (error) { setError('אימייל או סיסמה שגויים: ' + error.message); setLoading(false); return }
-    router.push('/admin')
-    router.refresh()
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    console.log('login result:', data, error)
+    if (error) { setError('שגיאה: ' + error.message); setLoading(false); return }
+    window.location.href = '/admin'
   }
 
   return (
