@@ -8,6 +8,7 @@ type BobState = 'wave' | 'talk' | 'idle';
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [bobState, setBobState] = useState<BobState>('wave');
   const [messages, setMessages] = useState<Msg[]>([
     { role: 'assistant', content: 'שלום! אני בוב 👷 העוזר האישי שלכם - איך אפשר לעזור היום?' }
@@ -17,6 +18,7 @@ export default function ChatWidget() {
   const [pos, setPos] = useState({ x: 24, y: 24 }); // מרחק מתחתית-שמאל
   const dragging = useRef(false);
   const dragOffset = useRef({ x: 0, y: 0 });
+  const didDrag = useRef(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -45,6 +47,7 @@ export default function ChatWidget() {
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     dragging.current = true;
+    didDrag.current = false;
     const rect = widgetRef.current!.getBoundingClientRect();
     dragOffset.current = {
       x: e.clientX - rect.left,
@@ -55,6 +58,7 @@ export default function ChatWidget() {
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       if (!dragging.current || !widgetRef.current) return;
+      didDrag.current = true;
       const w = widgetRef.current.offsetWidth;
       const h = widgetRef.current.offsetHeight;
       const newLeft = e.clientX - dragOffset.current.x;
@@ -80,6 +84,7 @@ export default function ChatWidget() {
   useEffect(() => {
     const onTouchMove = (e: TouchEvent) => {
       if (!dragging.current || !widgetRef.current) return;
+      didDrag.current = true;
       const t = e.touches[0];
       const w = widgetRef.current.offsetWidth;
       const h = widgetRef.current.offsetHeight;
@@ -101,6 +106,7 @@ export default function ChatWidget() {
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     dragging.current = true;
+    didDrag.current = false;
     const t = e.touches[0];
     const rect = widgetRef.current!.getBoundingClientRect();
     dragOffset.current = { x: t.clientX - rect.left, y: t.clientY - rect.top };
@@ -152,7 +158,28 @@ export default function ChatWidget() {
         .drag-hint { animation: dragHint 1.5s ease-in-out infinite; }
       `}</style>
 
-      {shown && (
+      {shown && dismissed && (
+        <button
+          ref={widgetRef as any}
+          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          onClick={() => { if (!didDrag.current) setDismissed(false); }}
+          aria-label="פתח את בוב"
+          style={{
+            position: 'fixed', bottom: pos.y, left: pos.x, zIndex: 9999,
+            width: 56, height: 56, borderRadius: '50%', border: '2px solid #FCD34D',
+            background: '#fff', cursor: 'grab', padding: 0, overflow: 'hidden',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.18)', touchAction: 'none',
+          }}
+        >
+          <video autoPlay loop muted playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
+            <source src="/bob-wave.mp4" type="video/mp4" />
+          </video>
+        </button>
+      )}
+
+      {shown && !dismissed && (
         <div
           ref={widgetRef}
           className="widget-rise"
@@ -321,6 +348,18 @@ export default function ChatWidget() {
                   <strong style={{ fontSize:13, color:'#111', marginBottom:2 }}>היי! אני בוב 👷</strong>
                   <span style={{ fontSize:11.5, color:'#666', lineHeight:1.5 }}>יש שאלה? לחץ ואני עוזר!</span>
                 </div>
+                <button
+                  onClick={e => { e.stopPropagation(); setDismissed(true); }}
+                  aria-label="סגור"
+                  style={{
+                    position:'absolute', top:-6, left:-6, width:22, height:22,
+                    borderRadius:'50%', border:'1.5px solid #FCD34D', background:'#fff',
+                    cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
+                    boxShadow:'0 2px 6px rgba(0,0,0,0.15)', padding:0,
+                  }}
+                >
+                  <X size={12} color="#666" />
+                </button>
               </div>
               {/* בוב מיני — ניתן לגרור */}
               <div
