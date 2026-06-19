@@ -314,9 +314,10 @@ export default function HomePage() {
         <div className="container">
           <FadeIn><h2 className="section-title">קנייה לפי קטגוריה</h2></FadeIn>
           <FadeIn delay={100}>
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, marginBottom: 16 }}>
+            {/* שורה 1: בניין (גדול) + כלי עבודה + חשמל */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 16, marginBottom: 16, alignItems: 'stretch' }}>
               {CATEGORIES.filter(c => !c.red).slice(0, 3).map((cat, i) => (
-                <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: i === 0 ? 340 : 200 }}
+                <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: i === 0 ? 300 : '100%', minHeight: i === 0 ? 300 : 140 }}
                   onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
                   onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
                 >
@@ -329,8 +330,25 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-              {CATEGORIES.filter(c => !c.red).slice(3).map((cat) => (
+            {/* שורה 2: 5 קטגוריות + מבצעים = 6 תאים שווים */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 16 }}>
+              {CATEGORIES.filter(c => !c.red).slice(3, 6).map((cat) => (
+                <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: 160 }}
+                  onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
+                  onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
+                >
+                  <img src={cat.img} alt={cat.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }} />
+                  <div className="ov" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.28)', transition: 'background 0.3s' }} />
+                  <div style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: '16px 20px' }}>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{cat.name}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 3 }}>לקנייה ←</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            {/* שורה 3: 2 קטגוריות + מבצעים */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              {CATEGORIES.filter(c => !c.red).slice(6).map((cat) => (
                 <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: 160 }}
                   onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
                   onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
