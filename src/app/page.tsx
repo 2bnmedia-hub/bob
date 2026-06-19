@@ -256,7 +256,7 @@ export default function HomePage() {
             <FadeIn>
               <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', height: '100%', minHeight: 400 }}>
                 <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&q=80" alt="מבצע" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(200,0,30,0.92) 40%, rgba(200,0,30,0.4) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(45,106,79,0.92) 40%, rgba(45,106,79,0.4) 100%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, padding: 28, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                   <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginBottom: 6, fontWeight: 600 }}>מותג מוביל</div>
                   <h3 style={{ fontSize: 26, fontWeight: 900, color: '#fff', lineHeight: 1.2, marginBottom: 10 }}>קולקציית<br/>הקיץ 2025</h3>
@@ -283,7 +283,7 @@ export default function HomePage() {
           <div className="container">
             <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', minHeight: 180 }}>
               <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1200&q=80" alt="מבצע" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(200,0,30,0.82)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,106,79,0.82)' }} />
               <div style={{ position: 'relative', zIndex: 1, padding: '40px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 6 }}>מבצע מיוחד</div>
@@ -297,12 +297,12 @@ export default function HomePage() {
       </FadeIn>
 
       {/* ══ SHOP BY CATEGORY ══ */}
-      <section style={{ padding: '64px 0', background: 'var(--gray-50)' }}>
+      <section style={{ padding: '80px 0', background: 'var(--gray-50)' }}>
         <div className="container">
           <FadeIn>
             <h2 className="section-title">קנייה לפי קטגוריה</h2>
           </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 24 }}>
             {CATEGORIES.map((cat, i) => (
               <FadeIn key={cat.href} delay={i * 50}>
                 <Link href={cat.href} style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>
@@ -338,21 +338,21 @@ export default function HomePage() {
           <FadeIn delay={100}>
             <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', marginBottom: 20 }}>
               <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=1200&q=80" alt="עסקה" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'rgba(200,0,30,0.85)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,106,79,0.85)' }} />
               <div style={{ position: 'relative', zIndex: 1, padding: '20px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <h3 style={{ fontSize: 20, fontWeight: 800, color: '#fff' }}>₪49 בלבד — ערכת כלים נבחרת</h3>
                 <button className="btn-primary" style={{ flexShrink: 0 }}>לקנייה עכשיו</button>
               </div>
             </div>
           </FadeIn>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 16, alignItems: 'stretch' }}>
             {[
-              { n: '₪300', sub: 'חסוך על ציוד בנייה נבחר', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=80', dark: true },
+              { n: '₪300', sub: 'חסוך על ציוד בנייה נבחר', img: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=80', dark: true, height: 'auto' },
               { n: '₪4', sub: 'על חומרי איטום', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80', dark: false },
               { n: '₪40', sub: 'על סולמות נבחרים', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&q=80', dark: false },
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 100}>
-                <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', minHeight: item.dark ? 220 : 160 }}>
+                <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', minHeight: 220, height: '100%' }}>
                   <img src={item.img} alt={item.sub} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                   <div style={{ position: 'absolute', inset: 0, background: item.dark ? 'rgba(50,30,15,0.75)' : 'rgba(255,255,255,0.82)' }} />
                   <div style={{ position: 'relative', zIndex: 1, padding: 24 }}>
@@ -369,7 +369,7 @@ export default function HomePage() {
       </section>
 
       {/* ══ FEATURED PRODUCTS ══ */}
-      <section style={{ padding: '64px 0', background: 'var(--gray-50)' }}>
+      <section style={{ padding: '80px 0', background: 'var(--gray-50)' }}>
         <div className="container">
           <FadeIn>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
@@ -418,7 +418,7 @@ export default function HomePage() {
       </section>
 
       {/* ══ BRANDS ══ */}
-      <section style={{ padding: '64px 0', background: 'var(--gray-50)' }}>
+      <section style={{ padding: '80px 0', background: 'var(--gray-50)' }}>
         <div className="container">
           <FadeIn><h2 className="section-title">המותגים המובילים תחת קורת גג אחת</h2></FadeIn>
           <FadeIn delay={100}>
