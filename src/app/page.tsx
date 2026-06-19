@@ -435,7 +435,7 @@ export default function HomePage() {
       </section>
 
       {/* ══ FOOTER ══ */}
-      <footer style={{ background: 'var(--brown-dark)', color: '#ccc', padding: '56px 0 0', direction: 'rtl' }}>
+      <footer style={{ background: '#F5F5F5', color: '#222', padding: '56px 0 0', direction: 'rtl' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr) 220px', gap: 32, marginBottom: 40 }}>
             {[
@@ -445,11 +445,11 @@ export default function HomePage() {
               { title: 'משאבים', items: ['טיפים ועצות','מבצעים','שירותי חנות','חדשות'] },
             ].map(col => (
               <div key={col.title}>
-                <h4 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>{col.title}</h4>
+                <h4 style={{ color: '#222', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>{col.title}</h4>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.items.map(it => (
                     <li key={it}>
-                      <Link href="#" style={{ fontSize: 14, color: 'var(--gray-400)', transition: 'color 0.15s' }}
+                      <Link href="#" style={{ fontSize: 14, color: '#555', transition: 'color 0.15s' }}
                         onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
                         onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-400)')}
                       >{it}</Link>
@@ -458,16 +458,16 @@ export default function HomePage() {
                 </ul>
               </div>
             ))}
-            <div style={{ background: 'var(--red)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
-              <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', marginBottom: 4 }}>BOB</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)', letterSpacing: 3, marginBottom: 20 }}>REWARDS</div>
-              <Link href="#" style={{ display: 'block', color: 'var(--gold-light)', fontSize: 13, marginBottom: 8 }}>למד עוד</Link>
-              <Link href="#" style={{ display: 'block', color: '#fff', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
+            <div style={{ background: 'var(--gold)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 4 }}>BOB</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#333', letterSpacing: 3, marginBottom: 20 }}>REWARDS</div>
+              <Link href="#" style={{ display: 'block', color: '#333', fontSize: 13, marginBottom: 8 }}>למד עוד</Link>
+              <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '28px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <div style={{ borderTop: '1px solid #DDD', padding: '28px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
             <div>
-              <div style={{ fontSize: 15, color: '#fff', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
+              <div style={{ fontSize: 15, color: '#222', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
               <div style={{ display: 'flex' }}>
                 <input type="email" placeholder="הכנס כתובת אימייל" style={{ border: 'none', padding: '11px 18px', fontSize: 14, width: 260, borderRadius: '8px 0 0 8px', fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
                 <button style={{ background: 'var(--gold)', color: 'var(--brown-dark)', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '0 8px 8px 0', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
@@ -475,14 +475,14 @@ export default function HomePage() {
             </div>
             <div style={{ display: 'flex', gap: 20 }}>
               {['Facebook','Instagram','TikTok','YouTube'].map(s => (
-                <Link key={s} href="#" style={{ fontSize: 13, color: 'var(--gray-400)', transition: 'color 0.15s' }}
+                <Link key={s} href="#" style={{ fontSize: 13, color: '#555', transition: 'color 0.15s' }}
                   onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
                   onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-400)')}
                 >{s}</Link>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '16px 0', textAlign: 'center', fontSize: 12, color: 'rgba(255,255,255,0.25)' }}>
+          <div style={{ borderTop: '1px solid #DDD', padding: '16px 0', textAlign: 'center', fontSize: 12, color: '#888' }}>
             © 2025 בוב חומרי בניין קריית ים. כל הזכויות שמורות.
           </div>
         </div>
