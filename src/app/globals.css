@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   --gold: #E1B23C;
@@ -17,14 +17,14 @@
   --gray-400: #BDBDBD;
   --gray-600: #757575;
   --gray-800: #212121;
-  --font: 'Assistant', sans-serif;
+  --font: 'Heebo', sans-serif;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-  --max-w: 1400px;
-  --px: clamp(12px, 3vw, 32px);
+  --max-w: 100%;
+  --px: clamp(16px, 2vw, 48px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
