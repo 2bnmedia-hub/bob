@@ -1,52 +1,69 @@
-"use client";
-
-import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+'use client';
+import { useState } from 'react';
+import { MapPin, Phone, Clock, Mail } from 'lucide-react';
 
 export default function ContactPage() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [sent, setSent] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    alert("הפנייה נשלחה! נחזור אליך בהקדם.");
+    setSent(true);
   }
 
   return (
-    <>
-      <Header />
-      <main className="mx-auto max-w-2xl px-6 py-20">
-        <h1 className="text-4xl font-black tracking-tight text-[var(--color-ink)] md:text-5xl">צור קשר</h1>
-        <p className="mt-6 text-lg leading-relaxed text-[var(--color-muted)]">
-          לייעוץ וקבלת הצעת מחיר אטרקטיבית, השאירו פרטים או התקשרו: <span className="font-bold text-[var(--color-ink)]">055-999-8088</span>
-        </p>
+    <main style={{ direction: 'rtl', padding: '64px 0' }}>
+      <div className="container">
+        <h1 style={{ fontSize: 36, fontWeight: 900, color: 'var(--brown-dark)', marginBottom: 8, textAlign: 'center' }}>צור קשר</h1>
+        <p style={{ textAlign: 'center', color: 'var(--gray-600)', marginBottom: 48 }}>נשמח לשמוע ממך</p>
 
-        <form onSubmit={handleSubmit} className="mt-10 space-y-5">
-          <div>
-            <label className="mb-2 block text-base font-medium text-[var(--color-ink)]">שם מלא</label>
-            <input required value={name} onChange={(e) => setName(e.target.value)} type="text" className="w-full rounded-[var(--radius-sm)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--color-brown)]" />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+          {/* INFO */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {[
+              [MapPin, 'כתובת', 'קריית ים, ישראל'],
+              [Phone, 'טלפון', '055-999-8088'],
+              [Mail, 'אימייל', 'info@bob-hardware.co.il'],
+              [Clock, 'שעות פתיחה', 'ראשון–חמישי 07:00–19:00 | שישי 07:00–14:00'],
+            ].map(([Icon, title, val]: any) => (
+              <div key={title} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                <div style={{ background: 'var(--cream)', borderRadius: 12, padding: 14, flexShrink: 0 }}>
+                  <Icon size={22} strokeWidth={1.8} color="var(--brown)" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, color: 'var(--gray-400)', marginBottom: 4 }}>{title}</div>
+                  <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--gray-800)' }}>{val}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <label className="mb-2 block text-base font-medium text-[var(--color-ink)]">טלפון / נייד</label>
-            <input required value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" className="w-full rounded-[var(--radius-sm)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--color-brown)]" />
-          </div>
-          <div>
-            <label className="mb-2 block text-base font-medium text-[var(--color-ink)]">אימייל</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="w-full rounded-[var(--radius-sm)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--color-brown)]" />
-          </div>
-          <div>
-            <label className="mb-2 block text-base font-medium text-[var(--color-ink)]">תיאור הבקשה</label>
-            <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} className="w-full rounded-[var(--radius-sm)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3.5 text-base outline-none transition focus:border-[var(--color-brown)]" />
-          </div>
-          <button type="submit" className="rounded-full bg-[var(--color-ink)] px-9 py-4 text-base font-semibold text-[var(--color-paper)] transition hover:bg-[var(--color-brown)]">
-            שלח
-          </button>
-        </form>
-      </main>
-      <Footer />
-    </>
+
+          {/* FORM */}
+          {sent ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, background: 'var(--cream)', borderRadius: 20, padding: 48 }}>
+              <div style={{ fontSize: 48 }}>✓</div>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--brown)' }}>הודעתך נשלחה!</h2>
+              <p style={{ color: 'var(--gray-600)' }}>נחזור אליך בהקדם</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[['name','שם מלא','text'],['email','אימייל','email'],['phone','טלפון','tel']].map(([id, label, type]) => (
+                <div key={id}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-600)', display: 'block', marginBottom: 6 }}>{label}</label>
+                  <input type={type} required value={(form as any)[id]} onChange={e => setForm(f => ({ ...f, [id]: e.target.value }))}
+                    style={{ width: '100%', border: '1.5px solid var(--gray-200)', borderRadius: 10, padding: '11px 14px', fontSize: 15, fontFamily: 'var(--font)', outline: 'none', direction: 'rtl' }} />
+                </div>
+              ))}
+              <div>
+                <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-600)', display: 'block', marginBottom: 6 }}>הודעה</label>
+                <textarea required rows={4} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                  style={{ width: '100%', border: '1.5px solid var(--gray-200)', borderRadius: 10, padding: '11px 14px', fontSize: 15, fontFamily: 'var(--font)', outline: 'none', direction: 'rtl', resize: 'vertical' }} />
+              </div>
+              <button type="submit" className="btn-secondary" style={{ fontSize: 15, padding: '13px 0', justifyContent: 'center' }}>שלח הודעה</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </main>
   );
 }
