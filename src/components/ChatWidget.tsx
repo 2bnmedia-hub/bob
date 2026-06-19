@@ -213,7 +213,7 @@ export default function ChatWidget() {
                 height: 'auto',
                 cursor: 'pointer',
                 display: 'block',
-                mixBlendMode: 'multiply',
+                mixBlendMode: 'multiply' as const,
               }}
             >
               <source src={getVideoSrc()} type="video/mp4" />
