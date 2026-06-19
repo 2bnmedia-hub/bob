@@ -47,7 +47,7 @@ export default function ProductPage() {
 
   function handleAdd() {
     if (!product) return;
-    addItem({ id: product.id, name: product.name, price: product.price, quantity: qty });
+    for (let i = 0; i < qty; i++) addItem({ id: product.id, name: product.name, price: product.price });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
