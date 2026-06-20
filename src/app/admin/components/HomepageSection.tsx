@@ -96,7 +96,7 @@ function ProductsEditor({ dbKey }: { dbKey: string }) {
                 {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי'],['href','לינק למוצר']].map(([f, l]) => (
                   <div key={f}>
                     <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
-                    <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)}
+                    <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)} placeholder={f === 'href' ? 'להדביק לפה את לינק הדף שתרצו שיעלה בעת לחיצה על המוצר' : ''}
                       style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
                   </div>
                 ))}
