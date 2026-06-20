@@ -57,7 +57,7 @@ function ImageInput({ value, onChange }: { value: string; onChange: (v: string) 
         <input value={value} onChange={e => onChange(e.target.value)} placeholder="הכנס קישור תמונה"
           style={{ flex: 1, border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none' }} />
         <span style={{ fontSize: 12, color: '#aaa' }}>או</span>
-        <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
+        <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleUpload} style={{ display: 'none' }} />
         <button onClick={() => fileRef.current?.click()} disabled={uploading}
           style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 6, padding: '7px 14px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
           {uploading ? '...' : '+ העלה'}
@@ -184,21 +184,58 @@ function CategoriesEditor() {
 function GalleryEditor() {
   const [images, setImages] = useState<{id:string;url:string;title:string}[]>([])
   const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    supabase.from('gallery').select('*').order('created_at', { ascending: false }).then(({ data }) => {
-      if (data) setImages(data); setLoading(false)
-    })
-  }, [])
+  const [title, setTitle] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  async function load() {
+    const { data } = await supabase.from('gallery').select('*').order('created_at', { ascending: false })
+    if (data) setImages(data)
+    setLoading(false)
+  }
+
+  useEffect(() => { load() }, [])
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || []); if (!files.length) return
+    setUploading(true)
+    for (const file of files) {
+      const fileName = `gallery_${Date.now()}_${Math.random().toString(36).slice(2)}.${file.name.split('.').pop()}`
+      const { error } = await supabase.storage.from('gallery').upload(fileName, file)
+      if (!error) {
+        const { data } = supabase.storage.from('gallery').getPublicUrl(fileName)
+        await supabase.from('gallery').insert({ url: data.publicUrl, title: title || file.name })
+      }
+    }
+    setTitle('')
+    if (fileRef.current) fileRef.current.value = ''
+    await load()
+    setUploading(false)
+  }
+
   async function remove(img: any) {
     const fileName = img.url.split('/').pop()
     await supabase.storage.from('gallery').remove([fileName])
     await supabase.from('gallery').delete().eq('id', img.id)
     setImages(i => i.filter(x => x.id !== img.id))
   }
+
   if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
+
   return (
     <div>
-      <p style={{ fontSize: 13, color: '#888', marginBottom: 16 }}>להעלאת תמונות חדשות — עבור לדף גלריית תמונות הציבורי</p>
+      <div style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 12 }}>העלאת תמונה חדשה</div>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+          <input type="text" placeholder="כותרת תמונה (אופציונלי)" value={title} onChange={e => setTitle(e.target.value)}
+            style={{ border: '1px solid #ddd', borderRadius: 8, padding: '7px 12px', fontSize: 13, fontFamily: 'inherit', width: 200, outline: 'none' }} />
+          <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleUpload} style={{ display: 'none' }} />
+          <button onClick={() => fileRef.current?.click()} disabled={uploading}
+            style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 8, padding: '7px 18px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+            {uploading ? 'מעלה...' : '+ בחר תמונה'}
+          </button>
+        </div>
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
         {images.map(img => (
           <div key={img.id} style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid #eee' }}>
