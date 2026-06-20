@@ -104,7 +104,7 @@ export default function Header() {
           </nav>
 
           {/* SEARCH */}
-          <div style={{ flex: 0.5, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden' }}>
+          <div style={{ flex: 0.5, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden', marginRight: 'auto' }}>
             <div style={{ padding: '0 12px', display: 'flex', alignItems: 'center', borderLeft: '1px solid #eee' }}>
               <Search size={17} color="var(--gold-dark)" strokeWidth={2} />
             </div>
@@ -114,7 +114,7 @@ export default function Header() {
           </div>
 
           {/* ICONS */}
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0, marginLeft: 'auto' }}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
             <Link href="/account" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, color: '#111', fontSize: 10, fontWeight: 600, textDecoration: 'none' }}>
               <User size={22} strokeWidth={1.8} />
               <span style={{ display: 'none' }} className="desktop-nav">כניסה</span>
