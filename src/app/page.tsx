@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Truck, Lock, RotateCcw, Star, ArrowLeft, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useCart } from '@/context/CartContext';
+import { supabase } from '@/lib/supabase';
 
 /* ─── ANIMATION HOOK ─── */
 function useInView(threshold = 0.15) {
@@ -179,13 +180,20 @@ function ProductCard({ product, badge }: { product: typeof PROMO_PRODUCTS[0]; ba
 /* ─── PAGE ─── */
 export default function HomePage() {
   const [heroIdx, setHeroIdx] = useState(0);
+  const [heroSlides, setHeroSlides] = useState(HERO_SLIDES);
+
+  useEffect(() => {
+    supabase.from('homepage_content').select('value').eq('key', 'hero').single().then(({ data }) => {
+      if (data?.value) setHeroSlides(data.value);
+    });
+  }, []);
   const [catTab, setCatTab] = useState(0);
   const [editTab, setEditTab] = useState(0);
-  const hero = HERO_SLIDES[heroIdx];
+  const hero = heroSlides[heroIdx];
 
   /* auto-advance hero */
   useEffect(() => {
-    const t = setInterval(() => setHeroIdx(i => (i + 1) % HERO_SLIDES.length), 5000);
+    const t = setInterval(() => setHeroIdx(i => (i + 1) % heroSlides.length), 5000);
     return () => clearInterval(t);
   }, []);
 

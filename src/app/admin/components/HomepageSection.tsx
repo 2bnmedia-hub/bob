@@ -13,16 +13,50 @@ const CARDS = [
   { id: 'categories', icon: '🗂️', title: 'קטגוריות מובילות', desc: 'סידור וניהול הקטגוריות המוצגות בדף הבית', color: '#E0F7FA' },
 ]
 
+const DEFAULT_HERO = [
+  { title: 'חסכו עד ₪300', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', btn: 'לקנייה עכשיו', badge: 'מבצע מיוחד', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90', overlay: 'rgba(50,30,15,0.45)' },
+  { title: 'כלי עבודה מקצועיים', sub: 'מבחר ענק של כלים ממותגים מובילים', btn: 'גלו עכשיו', badge: 'חדש', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=90', overlay: 'rgba(20,20,20,0.5)' },
+  { title: 'חומרי בניין איכותיים', sub: 'כל מה שצריך לפרויקט — במקום אחד', btn: 'לקטלוג', badge: 'קיץ 2025', img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90', overlay: 'rgba(30,50,15,0.5)' },
+]
+
+const DEFAULT_PRODUCTS = [{ id: '1', name: '', price: '', was: '', img: '' }]
+
+const DEFAULT_CATEGORIES = [
+  { name: 'בניין ושיפוץ', href: '/category/building', img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=90' },
+  { name: 'כלי עבודה', href: '/category/tools', img: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&q=90' },
+  { name: 'חשמל', href: '/category/electric', img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=90' },
+  { name: 'צבע וגימור', href: '/category/paint', img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=90' },
+  { name: 'אינסטלציה', href: '/category/plumbing', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=90' },
+]
+
+async function loadKey(key: string) {
+  const { data } = await supabase.from('homepage_content').select('value').eq('key', key).single()
+  return data?.value ?? null
+}
+
+async function saveKey(key: string, value: any) {
+  await supabase.from('homepage_content').upsert({ key, value, updated_at: new Date().toISOString() })
+}
+
 function HeroEditor() {
-  const [slides, setSlides] = useState([
-    { title: 'חסכו עד ₪300', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', btn: 'לקנייה עכשיו', badge: 'מבצע מיוחד', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90' },
-    { title: 'כלי עבודה מקצועיים', sub: 'מבחר ענק של כלים ממותגים מובילים', btn: 'גלו עכשיו', badge: 'חדש', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=90' },
-    { title: 'חומרי בניין איכותיים', sub: 'כל מה שצריך לפרויקט — במקום אחד', btn: 'לקטלוג', badge: 'קיץ 2025', img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90' },
-  ])
+  const [slides, setSlides] = useState(DEFAULT_HERO)
   const [active, setActive] = useState(0)
   const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadKey('hero').then(v => { if (v) setSlides(v); setLoading(false) })
+  }, [])
+
   function update(field: string, val: string) { setSlides(s => s.map((sl, i) => i === active ? { ...sl, [field]: val } : sl)) }
-  function save() { setSaved(true); setTimeout(() => setSaved(false), 2000) }
+
+  async function save() {
+    await saveKey('hero', slides)
+    setSaved(true); setTimeout(() => setSaved(false), 2000)
+  }
+
+  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
+
   return (
     <div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
@@ -31,8 +65,8 @@ function HeroEditor() {
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        {[['title','כותרת'],['sub','תת-כותרת'],['btn','טקסט כפתור'],['badge','תגית'],['img','קישור תמונה']].map(([f, l]) => (
-          <div key={f} style={{ gridColumn: f === 'img' ? '1/-1' : undefined }}>
+        {[['title','כותרת'],['sub','תת-כותרת'],['btn','טקסט כפתור'],['badge','תגית'],['img','קישור תמונה'],['overlay','צבע overlay']].map(([f, l]) => (
+          <div key={f} style={{ gridColumn: f === 'img' || f === 'overlay' ? '1/-1' : undefined }}>
             <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>{l}</label>
             <input value={(slides[active] as any)[f]} onChange={e => update(f, e.target.value)}
               style={{ width: '100%', border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
@@ -40,18 +74,27 @@ function HeroEditor() {
         ))}
       </div>
       {slides[active].img && <img src={slides[active].img} alt="preview" style={{ width: '100%', height: 140, objectFit: 'cover', borderRadius: 10, marginTop: 16 }} />}
-      <button onClick={save} style={{ marginTop: 16, background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{saved ? '✓ נשמר!' : 'שמור שינויים'}</button>
+      <button onClick={save} style={{ marginTop: 16, background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{saved ? '✓ נשמר ב-Supabase!' : 'שמור שינויים'}</button>
     </div>
   )
 }
 
-function ProductsEditor({ title }: { title: string }) {
-  const [products, setProducts] = useState([{ id: '1', name: '', price: '', was: '', img: '' }])
+function ProductsEditor({ dbKey, title }: { dbKey: string; title: string }) {
+  const [products, setProducts] = useState(DEFAULT_PRODUCTS)
   const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadKey(dbKey).then(v => { if (v) setProducts(v); setLoading(false) })
+  }, [dbKey])
+
   function update(i: number, field: string, val: string) { setProducts(p => p.map((pr, idx) => idx === i ? { ...pr, [field]: val } : pr)) }
   function add() { setProducts(p => [...p, { id: Date.now().toString(), name: '', price: '', was: '', img: '' }]) }
   function remove(i: number) { setProducts(p => p.filter((_, idx) => idx !== i)) }
-  function save() { setSaved(true); setTimeout(() => setSaved(false), 2000) }
+  async function save() { await saveKey(dbKey, products); setSaved(true); setTimeout(() => setSaved(false), 2000) }
+
+  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
+
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
@@ -82,16 +125,19 @@ function ProductsEditor({ title }: { title: string }) {
 }
 
 function CategoriesEditor() {
-  const [cats, setCats] = useState([
-    { name: 'בניין ושיפוץ', href: '/category/building', img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=90' },
-    { name: 'כלי עבודה', href: '/category/tools', img: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&q=90' },
-    { name: 'חשמל', href: '/category/electric', img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=90' },
-    { name: 'צבע וגימור', href: '/category/paint', img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=90' },
-    { name: 'אינסטלציה', href: '/category/plumbing', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=90' },
-  ])
+  const [cats, setCats] = useState(DEFAULT_CATEGORIES)
   const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadKey('categories').then(v => { if (v) setCats(v); setLoading(false) })
+  }, [])
+
   function update(i: number, field: string, val: string) { setCats(c => c.map((cat, idx) => idx === i ? { ...cat, [field]: val } : cat)) }
-  function save() { setSaved(true); setTimeout(() => setSaved(false), 2000) }
+  async function save() { await saveKey('categories', cats); setSaved(true); setTimeout(() => setSaved(false), 2000) }
+
+  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
+
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
@@ -149,6 +195,7 @@ function GalleryEditor() {
 export default function HomepageSection() {
   const [sub, setSub] = useState<SubSection>('menu')
   const current = CARDS.find(c => c.id === sub)
+
   if (sub === 'menu') {
     return (
       <div style={{ padding: 24, direction: 'rtl' }}>
@@ -172,6 +219,7 @@ export default function HomepageSection() {
       </div>
     )
   }
+
   return (
     <div style={{ padding: 24, direction: 'rtl' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
@@ -181,9 +229,9 @@ export default function HomepageSection() {
       </div>
       <div style={{ background: '#fff', border: '1px solid #eee', borderRadius: 14, padding: 24 }}>
         {sub === 'hero' && <HeroEditor />}
-        {sub === 'weekly' && <ProductsEditor title="מבצעי השבוע" />}
-        {sub === 'deals' && <ProductsEditor title="העסקאות הכי שוות" />}
-        {sub === 'best' && <ProductsEditor title="העסקאות הטובות ביותר" />}
+        {sub === 'weekly' && <ProductsEditor dbKey="weekly" title="מבצעי השבוע" />}
+        {sub === 'deals' && <ProductsEditor dbKey="deals" title="העסקאות הכי שוות" />}
+        {sub === 'best' && <ProductsEditor dbKey="best" title="העסקאות הטובות ביותר" />}
         {sub === 'gallery' && <GalleryEditor />}
         {sub === 'categories' && <CategoriesEditor />}
       </div>
