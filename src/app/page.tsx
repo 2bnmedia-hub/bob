@@ -483,10 +483,10 @@ export default function HomePage() {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr) 220px', gap: 32, marginBottom: 40 }}>
             {[
-              { title: 'דרכי קנייה', items: ['מיקום הסניף על המפה','מותגים','כרטיסי מתנה'] },
-              { title: 'שירות לקוחות', items: ['צור קשר','מדיניות החזרות','משלוח ואיסוף'] },
-              { title: 'על BOB', items: ['אודות','קריירה','תנאי שימוש','ספקים','סניפים'] },
-              { title: 'משאבים', items: ['טיפים ועצות','שירותי חנות'] },
+              { title: 'דרכי קנייה', items: ['מיקום הסניף על המפה','כרטיסי מתנה'] },
+              { title: 'שירות לקוחות', items: ['צור קשר','התכתבות בוואטסאפ','מדיניות החזרות','משלוח ואיסוף'] },
+              { title: 'על חנות בוב הבנאי', items: ['אודות','קריירה','תנאי שימוש','ספקים'] },
+              { title: 'משאבים ומידע', items: ['טיפים ועצות','שירותי חנות','הצהרת נגישות','תקנון אתר'] },
             ].map(col => (
               <div key={col.title}>
                 <h4 style={{ color: '#222', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>{col.title}</h4>
@@ -495,7 +495,7 @@ export default function HomePage() {
                     <li key={it}>
                       <Link href={it === 'מיקום הסניף על המפה' ? 'https://maps.google.com/?q=גאולה+כהן+2+קריית+ים' : '#'} target={it === 'מיקום הסניף על המפה' ? '_blank' : undefined} rel={it === 'מיקום הסניף על המפה' ? 'noopener noreferrer' : undefined} style={{ fontSize: 14, color: '#555', transition: 'color 0.15s' }}
                         onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
-                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-400)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#555')}
                       >{it}</Link>
                     </li>
                   ))}
@@ -521,7 +521,7 @@ export default function HomePage() {
               {['Facebook','Instagram','TikTok','YouTube'].map(s => (
                 <Link key={s} href="#" style={{ fontSize: 13, color: '#555', transition: 'color 0.15s' }}
                   onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-400)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#555')}
                 >{s}</Link>
               ))}
             </div>
