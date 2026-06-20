@@ -35,7 +35,6 @@ export default function Sidebar({ active, onNav, onImport }: Props) {
           onClick={() => onNav('categories')} />
         <NavItem icon="📈" label="אנליטיקס" active={active === 'analytics'}
           onClick={() => onNav('analytics')} />
-        <NavItem icon="🖼️" label="גלריה" active={active === 'gallery'} onClick={() => onNav('gallery')} />
         <NavItem icon="⬆️" label="ייבוא קובץ" onClick={onImport} />
 
         <div className="admin-nav-section">מכירות</div>
