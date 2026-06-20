@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import HeroEditor from './HeroEditor'
 import { supabase } from '@/lib/supabase'
 
 type SubSection = 'menu' | 'hero' | 'weekly' | 'gallery' | 'deals' | 'best' | 'categories'
@@ -37,48 +38,6 @@ async function loadKey(key: string) {
 async function saveKey(key: string, value: any) {
   await supabase.from('homepage_content').upsert({ key, value, updated_at: new Date().toISOString() })
 }
-
-function HeroEditor() {
-  const [slides, setSlides] = useState(DEFAULT_HERO)
-  const [active, setActive] = useState(0)
-  const [saved, setSaved] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    loadKey('hero').then(v => { if (v) setSlides(v); setLoading(false) })
-  }, [])
-
-  function update(field: string, val: string) { setSlides(s => s.map((sl, i) => i === active ? { ...sl, [field]: val } : sl)) }
-
-  async function save() {
-    await saveKey('hero', slides)
-    setSaved(true); setTimeout(() => setSaved(false), 2000)
-  }
-
-  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
-
-  return (
-    <div>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => setActive(i)} style={{ padding: '6px 16px', borderRadius: 8, border: '1px solid #ddd', background: active === i ? '#F0C040' : '#fff', fontWeight: active === i ? 700 : 400, cursor: 'pointer', fontFamily: 'inherit' }}>שקופית {i + 1}</button>
-        ))}
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        {[['title','כותרת'],['sub','תת-כותרת'],['btn','טקסט כפתור'],['badge','תגית'],['img','קישור תמונה'],['overlay','צבע overlay']].map(([f, l]) => (
-          <div key={f} style={{ gridColumn: f === 'img' || f === 'overlay' ? '1/-1' : undefined }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>{l}</label>
-            <input value={(slides[active] as any)[f]} onChange={e => update(f, e.target.value)}
-              style={{ width: '100%', border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
-          </div>
-        ))}
-      </div>
-      {slides[active].img && <img src={slides[active].img} alt="preview" style={{ width: '100%', height: 140, objectFit: 'cover', borderRadius: 10, marginTop: 16 }} />}
-      <button onClick={save} style={{ marginTop: 16, background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{saved ? '✓ נשמר ב-Supabase!' : 'שמור שינויים'}</button>
-    </div>
-  )
-}
-
 function ProductsEditor({ dbKey, title }: { dbKey: string; title: string }) {
   const [products, setProducts] = useState(DEFAULT_PRODUCTS)
   const [saved, setSaved] = useState(false)
