@@ -1,7 +1,7 @@
 'use client'
-import { useState, useEffect } from 'react'
-import HeroEditor from './HeroEditor'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import HeroEditor from './HeroEditor'
 
 type SubSection = 'menu' | 'hero' | 'weekly' | 'gallery' | 'deals' | 'best' | 'categories'
 
@@ -14,14 +14,7 @@ const CARDS = [
   { id: 'categories', icon: '🗂️', title: 'קטגוריות מובילות', desc: 'סידור וניהול הקטגוריות המוצגות בדף הבית', color: '#E0F7FA' },
 ]
 
-const DEFAULT_HERO = [
-  { title: 'חסכו עד ₪300', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', btn: 'לקנייה עכשיו', badge: 'מבצע מיוחד', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90', overlay: 'rgba(50,30,15,0.45)' },
-  { title: 'כלי עבודה מקצועיים', sub: 'מבחר ענק של כלים ממותגים מובילים', btn: 'גלו עכשיו', badge: 'חדש', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=90', overlay: 'rgba(20,20,20,0.5)' },
-  { title: 'חומרי בניין איכותיים', sub: 'כל מה שצריך לפרויקט — במקום אחד', btn: 'לקטלוג', badge: 'קיץ 2025', img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90', overlay: 'rgba(30,50,15,0.5)' },
-]
-
 const DEFAULT_PRODUCTS = [{ id: '1', name: '', price: '', was: '', img: '' }]
-
 const DEFAULT_CATEGORIES = [
   { name: 'בניין ושיפוץ', href: '/category/building', img: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=90' },
   { name: 'כלי עבודה', href: '/category/tools', img: 'https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=800&q=90' },
@@ -38,14 +31,48 @@ async function loadKey(key: string) {
 async function saveKey(key: string, value: any) {
   await supabase.from('homepage_content').upsert({ key, value, updated_at: new Date().toISOString() })
 }
-function ProductsEditor({ dbKey, title }: { dbKey: string; title: string }) {
+
+function ImageInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const fileRef = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const fileName = `img_${Date.now()}.${file.name.split('.').pop()}`
+    const { error } = await supabase.storage.from('gallery').upload(fileName, file)
+    if (!error) {
+      const { data } = supabase.storage.from('gallery').getPublicUrl(fileName)
+      onChange(data.publicUrl)
+    }
+    setUploading(false)
+    if (fileRef.current) fileRef.current.value = ''
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <input value={value} onChange={e => onChange(e.target.value)} placeholder="הכנס קישור תמונה"
+          style={{ flex: 1, border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none' }} />
+        <span style={{ fontSize: 12, color: '#aaa' }}>או</span>
+        <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
+        <button onClick={() => fileRef.current?.click()} disabled={uploading}
+          style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 6, padding: '7px 14px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+          {uploading ? '...' : '+ העלה'}
+        </button>
+      </div>
+      {value && <img src={value} alt="preview" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 8, marginTop: 8 }} />}
+    </div>
+  )
+}
+
+function ProductsEditor({ dbKey }: { dbKey: string }) {
   const [products, setProducts] = useState(DEFAULT_PRODUCTS)
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadKey(dbKey).then(v => { if (v) setProducts(v); setLoading(false) })
-  }, [dbKey])
+  useEffect(() => { loadKey(dbKey).then(v => { if (v) setProducts(v); setLoading(false) }) }, [dbKey])
 
   function update(i: number, field: string, val: string) { setProducts(p => p.map((pr, idx) => idx === i ? { ...pr, [field]: val } : pr)) }
   function add() { setProducts(p => [...p, { id: Date.now().toString(), name: '', price: '', was: '', img: '' }]) }
@@ -63,14 +90,18 @@ function ProductsEditor({ dbKey, title }: { dbKey: string; title: string }) {
               <span style={{ fontWeight: 600, fontSize: 14 }}>מוצר {i + 1}</span>
               <button onClick={() => remove(i)} style={{ background: '#fee', border: 'none', color: '#e33', borderRadius: 6, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit' }}>הסר</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי'],['img','קישור תמונה']].map(([f, l]) => (
-                <div key={f} style={{ gridColumn: f === 'name' || f === 'img' ? '1/-1' : undefined }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי']].map(([f, l]) => (
+                <div key={f}>
                   <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
                   <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)}
                     style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
                 </div>
               ))}
+              <div>
+                <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
+                <ImageInput value={p.img} onChange={v => update(i, 'img', v)} />
+              </div>
             </div>
           </div>
         ))}
@@ -88,9 +119,7 @@ function CategoriesEditor() {
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadKey('categories').then(v => { if (v) setCats(v); setLoading(false) })
-  }, [])
+  useEffect(() => { loadKey('categories').then(v => { if (v) setCats(v); setLoading(false) }) }, [])
 
   function update(i: number, field: string, val: string) { setCats(c => c.map((cat, idx) => idx === i ? { ...cat, [field]: val } : cat)) }
   async function save() { await saveKey('categories', cats); setSaved(true); setTimeout(() => setSaved(false), 2000) }
@@ -101,14 +130,20 @@ function CategoriesEditor() {
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
         {cats.map((cat, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 10, background: '#f9f9f9', borderRadius: 8, padding: 12 }}>
-            {[['name','שם'],['href','קישור'],['img','תמונה']].map(([f, l]) => (
-              <div key={f}>
-                <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
-                <input value={(cat as any)[f]} onChange={e => update(i, f, e.target.value)}
-                  style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '6px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
-              </div>
-            ))}
+          <div key={i} style={{ background: '#f9f9f9', borderRadius: 8, padding: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+              {[['name','שם'],['href','קישור']].map(([f, l]) => (
+                <div key={f}>
+                  <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
+                  <input value={(cat as any)[f]} onChange={e => update(i, f, e.target.value)}
+                    style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '6px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
+                </div>
+              ))}
+            </div>
+            <div>
+              <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
+              <ImageInput value={cat.img} onChange={v => update(i, 'img', v)} />
+            </div>
           </div>
         ))}
       </div>
@@ -188,9 +223,9 @@ export default function HomepageSection() {
       </div>
       <div style={{ background: '#fff', border: '1px solid #eee', borderRadius: 14, padding: 24 }}>
         {sub === 'hero' && <HeroEditor />}
-        {sub === 'weekly' && <ProductsEditor dbKey="weekly" title="מבצעי השבוע" />}
-        {sub === 'deals' && <ProductsEditor dbKey="deals" title="העסקאות הכי שוות" />}
-        {sub === 'best' && <ProductsEditor dbKey="best" title="העסקאות הטובות ביותר" />}
+        {sub === 'weekly' && <ProductsEditor dbKey="weekly" />}
+        {sub === 'deals' && <ProductsEditor dbKey="deals" />}
+        {sub === 'best' && <ProductsEditor dbKey="best" />}
         {sub === 'gallery' && <GalleryEditor />}
         {sub === 'categories' && <CategoriesEditor />}
       </div>
