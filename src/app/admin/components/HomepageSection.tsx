@@ -82,33 +82,61 @@ function ProductsEditor({ dbKey }: { dbKey: string }) {
   if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
 
   return (
-    <div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
-        {products.map((p, i) => (
-          <div key={p.id} style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 10, padding: 14 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-              <span style={{ fontWeight: 600, fontSize: 14 }}>מוצר {i + 1}</span>
-              <button onClick={() => remove(i)} style={{ background: '#fee', border: 'none', color: '#e33', borderRadius: 6, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit' }}>הסר</button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי']].map(([f, l]) => (
-                <div key={f}>
-                  <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
-                  <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)}
-                    style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start', direction: 'rtl' }}>
+      {/* EDITOR */}
+      <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+          {products.map((p, i) => (
+            <div key={p.id} style={{ background: '#f9f9f9', border: '1px solid #eee', borderRadius: 10, padding: 14 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                <span style={{ fontWeight: 600, fontSize: 14 }}>מוצר {i + 1}</span>
+                <button onClick={() => remove(i)} style={{ background: '#fee', border: 'none', color: '#e33', borderRadius: 6, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit' }}>הסר</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי']].map(([f, l]) => (
+                  <div key={f}>
+                    <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
+                    <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)}
+                      style={{ width: '100%', border: '1px solid #ddd', borderRadius: 6, padding: '7px 10px', fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
+                  </div>
+                ))}
+                <div>
+                  <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
+                  <ImageInput value={p.img} onChange={v => update(i, 'img', v)} />
                 </div>
-              ))}
-              <div>
-                <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
-                <ImageInput value={p.img} onChange={v => update(i, 'img', v)} />
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button onClick={add} style={{ background: '#fff', border: '1px dashed #ddd', borderRadius: 8, padding: '8px 18px', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14 }}>+ הוסף מוצר</button>
+          <button onClick={save} style={{ background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 24px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{saved ? '✓ נשמר!' : 'שמור'}</button>
+        </div>
       </div>
-      <div style={{ display: 'flex', gap: 10 }}>
-        <button onClick={add} style={{ background: '#fff', border: '1px dashed #ddd', borderRadius: 8, padding: '8px 18px', cursor: 'pointer', fontFamily: 'inherit', fontSize: 14 }}>+ הוסף מוצר</button>
-        <button onClick={save} style={{ background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 24px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{saved ? '✓ נשמר!' : 'שמור'}</button>
+
+      {/* PREVIEW */}
+      <div style={{ position: 'sticky', top: 20 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: '#888', marginBottom: 12 }}>תצוגה מקדימה</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          {products.filter(p => p.name).map((p, i) => (
+            <div key={i} style={{ border: '1px solid #eee', borderRadius: 12, overflow: 'hidden', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+              <div style={{ height: 120, background: '#f5f5f5', overflow: 'hidden' }}>
+                {p.img ? <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ccc', fontSize: 28 }}>📦</div>}
+              </div>
+              <div style={{ padding: '10px 12px' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#222', marginBottom: 6, lineHeight: 1.3 }}>{p.name}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 16, fontWeight: 800, color: '#222' }}>₪{p.price}</span>
+                  {p.was && <span style={{ fontSize: 12, color: '#aaa', textDecoration: 'line-through' }}>₪{p.was}</span>}
+                  {p.price && p.was && <span style={{ fontSize: 11, color: '#e33', fontWeight: 700 }}>-{Math.round((1 - Number(p.price)/Number(p.was))*100)}%</span>}
+                </div>
+              </div>
+            </div>
+          ))}
+          {products.filter(p => p.name).length === 0 && (
+            <div style={{ gridColumn: '1/-1', textAlign: 'center', color: '#ccc', padding: 40, fontSize: 13 }}>הוסף מוצרים כדי לראות תצוגה מקדימה</div>
+          )}
+        </div>
       </div>
     </div>
   )
