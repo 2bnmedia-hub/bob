@@ -93,7 +93,7 @@ function ProductsEditor({ dbKey }: { dbKey: string }) {
                 <button onClick={() => remove(i)} style={{ background: '#fee', border: 'none', color: '#e33', borderRadius: 6, padding: '2px 10px', cursor: 'pointer', fontFamily: 'inherit' }}>הסר</button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי']].map(([f, l]) => (
+                {[['name','שם מוצר'],['price','מחיר'],['was','מחיר מקורי'],['href','לינק למוצר']].map(([f, l]) => (
                   <div key={f}>
                     <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>{l}</label>
                     <input value={(p as any)[f]} onChange={e => update(i, f, e.target.value)}
