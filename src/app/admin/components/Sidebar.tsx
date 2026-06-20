@@ -28,6 +28,7 @@ export default function Sidebar({ active, onNav, onImport }: Props) {
 
         <NavItem icon="📊" label="סקירה כללית" active={active === 'dashboard'}
           onClick={() => onNav('dashboard')} />
+        <NavItem icon="🏠" label="ניהול דף הבית" active={active === 'homepage'} onClick={() => onNav('homepage')} />
         <NavItem icon="📦" label="מוצרים" badge="2,841" active={active === 'products'}
           onClick={() => onNav('products')} />
         <NavItem icon="🗂️" label="קטגוריות" active={active === 'categories'}
