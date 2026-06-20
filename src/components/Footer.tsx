@@ -29,8 +29,8 @@ export default function Footer() {
           <div style={{ background: 'var(--gold)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
             <div style={{ fontSize: 22, fontWeight: 900, color: '#111', marginBottom: 4 }}>BOB</div>
             <div style={{ fontSize: 13, fontWeight: 700, color: '#333', letterSpacing: 3, marginBottom: 20 }}>REWARDS</div>
-            <Link href="#" style={{ display: 'block', color: '#333', fontSize: 13, marginBottom: 8 }}>למד עוד</Link>
-            <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
+            <p style={{ fontSize: 13, color: '#333', marginBottom: 16, lineHeight: 1.6 }}>תצטרפו לחברי המועדון של בוב ותהנו מהטבות בלעדיות</p>
+            <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרפו עכשיו →</Link>
           </div>
         </div>
         <div style={{ borderTop: '1px solid #DDD', padding: '28px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
