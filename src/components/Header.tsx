@@ -92,16 +92,19 @@ export default function Header() {
           </Link>
 
           {/* NAV — desktop */}
-          <nav className="desktop-nav" style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
-            {NAV_LINKS.map(l => (
-              <Link key={l.href} href={l.href} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 600, color: '#111', padding: '7px 10px', borderRadius: 6 }}>
-                {l.label}
-              </Link>
+          <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 0, flexShrink: 0 }}>
+            {NAV_LINKS.map((l, idx) => (
+              <span key={l.href} style={{ display: 'flex', alignItems: 'center' }}>
+                <Link href={l.href} style={{ display: 'flex', alignItems: 'center', fontSize: 14, fontWeight: 500, color: '#111', padding: '7px 15px', borderRadius: 6 }}>
+                  {l.label}
+                </Link>
+                {idx < NAV_LINKS.length - 1 && <span style={{ color: '#ddd', fontSize: 16, userSelect: 'none' }}>|</span>}
+              </span>
             ))}
           </nav>
 
           {/* SEARCH */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden' }}>
+          <div style={{ flex: 0.5, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden' }}>
             <div style={{ padding: '0 12px', display: 'flex', alignItems: 'center', borderLeft: '1px solid #eee' }}>
               <Search size={17} color="var(--gold-dark)" strokeWidth={2} />
             </div>
@@ -111,7 +114,7 @@ export default function Header() {
           </div>
 
           {/* ICONS */}
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0, marginLeft: 'auto' }}>
             <Link href="/account" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, color: '#111', fontSize: 10, fontWeight: 600, textDecoration: 'none' }}>
               <User size={22} strokeWidth={1.8} />
               <span style={{ display: 'none' }} className="desktop-nav">כניסה</span>
