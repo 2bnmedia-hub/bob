@@ -1,4 +1,6 @@
 'use client'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { Section } from '../page'
 
 interface Props {
@@ -8,6 +10,14 @@ interface Props {
 }
 
 export default function Sidebar({ active, onNav, onImport }: Props) {
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) setEmail(data.user.email)
+    })
+  }, [])
+
   return (
     <aside className="admin-sidebar">
       <div className="admin-logo">
@@ -18,28 +28,22 @@ export default function Sidebar({ active, onNav, onImport }: Props) {
           </svg>
         </div>
         <div>
-          <div className="admin-logo-text">בוב</div>
+          <div className="admin-logo-text">{email || 'בוב'}</div>
           <div className="admin-logo-sub">לוח בקרה</div>
         </div>
       </div>
 
       <nav className="admin-nav">
         <div className="admin-nav-section">כללי</div>
-
-        <NavItem icon="📊" label="סקירה כללית" active={active === 'dashboard'}
-          onClick={() => onNav('dashboard')} />
+        <NavItem icon="📊" label="סקירה כללית" active={active === 'dashboard'} onClick={() => onNav('dashboard')} />
         <NavItem icon="🏠" label="ניהול דף הבית" active={active === 'homepage'} onClick={() => onNav('homepage')} />
-        <NavItem icon="📦" label="מוצרים" badge="2,841" active={active === 'products'}
-          onClick={() => onNav('products')} />
-        <NavItem icon="🗂️" label="קטגוריות" active={active === 'categories'}
-          onClick={() => onNav('categories')} />
-        <NavItem icon="📈" label="אנליטיקס" active={active === 'analytics'}
-          onClick={() => onNav('analytics')} />
+        <NavItem icon="📦" label="מוצרים" badge="2,841" active={active === 'products'} onClick={() => onNav('products')} />
+        <NavItem icon="🗂️" label="קטגוריות" active={active === 'categories'} onClick={() => onNav('categories')} />
+        <NavItem icon="📈" label="אנליטיקס" active={active === 'analytics'} onClick={() => onNav('analytics')} />
         <NavItem icon="⬆️" label="ייבוא קובץ" onClick={onImport} />
 
         <div className="admin-nav-section">מכירות</div>
-        <NavItem icon="🛒" label="הזמנות" badge="14" active={active === 'orders'}
-          onClick={() => onNav('orders')} />
+        <NavItem icon="🛒" label="הזמנות" badge="14" active={active === 'orders'} onClick={() => onNav('orders')} />
         <NavItem icon="👥" label="לקוחות" onClick={() => {}} />
 
         <div className="admin-nav-section">מערכת</div>

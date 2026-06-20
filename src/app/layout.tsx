@@ -4,7 +4,6 @@ import { CartProvider } from "@/context/CartContext";
 import { ConditionalHeader, ConditionalFooter } from "@/components/ConditionalHeader";
 import ChatWidget from "@/components/ChatWidget";
 
-
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -26,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <CartProvider>
-          {!pathname?.startsWith("/admin") <ConditionalHeader /><Header /> <Header />}
+          <ConditionalHeader />
           {children}
           <ChatWidget />
           <ConditionalFooter />
