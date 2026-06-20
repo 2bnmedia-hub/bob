@@ -15,7 +15,7 @@ const NAV_LINKS = [
 
 const PILLS = [
   { label: 'מבצעי השבוע', href: '/sales', gold: true, icon: Tag },
-  { label: 'מבצעים מיוחדים', href: '/specials', red: true, icon: Zap },
+  { label: 'גלריית תמונות', href: '/gallery', red: true, icon: Zap },
   { label: 'חשמל', href: '/category/electric', icon: Zap },
   { label: 'מכשירי חשמל', href: '/category/appliances', icon: Plug },
   { label: 'חומרי איטום', href: '/category/sealing', icon: Shield },
