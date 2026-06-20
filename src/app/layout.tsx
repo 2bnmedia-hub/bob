@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/Header";
 import ChatWidget from "@/components/ChatWidget";
+import Footer from "@/components/Footer";
 
 export const viewport = {
   width: "device-width",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Header />
           {children}
           <ChatWidget />
+          <Footer />
         </CartProvider>
       </body>
     </html>

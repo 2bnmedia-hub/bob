@@ -1,46 +1,58 @@
-const DEPARTMENTS = ["כלי עבודה", "חומרי בניין", "חשמל ביתי", "אחסון וארגון", "גינה", "בלוני גז וקמפינג"];
+'use client';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[var(--color-line)] bg-[var(--color-surface)]">
-      <div className="mx-auto grid max-w-[96vw] grid-cols-2 gap-7 px-5 py-9 md:grid-cols-4">
-        <div>
-          <img src="/logo.png" alt="בוב חומרי בניין" className="h-9 w-auto" />
-          <p className="mt-3 text-[16px] leading-relaxed text-[var(--color-muted)]">חומרי בניין, כלי עבודה ומצרכי בית — מקצועיות בכל פרויקט.</p>
-          <p className="mt-2.5 text-[16px] font-medium text-[var(--color-ink)]">055-999-8088</p>
-          <p className="mt-1 text-[14px] text-[var(--color-muted)]">ראשון–חמישי 7:00–19:00 | שישי 7:00–14:00</p>
+    <footer style={{ background: '#F5F5F5', color: '#222', padding: '56px 0 0', direction: 'rtl' }}>
+      <div className="container">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr) 220px', gap: 32, marginBottom: 40 }}>
+          {[
+            { title: 'דרכי קנייה', items: ['מיקום הסניף על המפה','כרטיסי מתנה'] },
+            { title: 'שירות לקוחות', items: ['צור קשר','התכתבות בוואטסאפ','מדיניות החזרות','משלוח ואיסוף'] },
+            { title: 'על חנות בוב הבנאי', items: ['אודות','קריירה','תנאי שימוש','ספקים'] },
+            { title: 'משאבים ומידע', items: ['טיפים ועצות','שירותי חנות','הצהרת נגישות','תקנון אתר'] },
+          ].map(col => (
+            <div key={col.title}>
+              <h4 style={{ color: '#222', fontSize: 15, fontWeight: 700, marginBottom: 16 }}>{col.title}</h4>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {col.items.map(it => (
+                  <li key={it}>
+                    <Link href={it === 'מיקום הסניף על המפה' ? 'https://maps.google.com/?q=גאולה+כהן+2+קריית+ים' : '#'} target={it === 'מיקום הסניף על המפה' ? '_blank' : undefined} rel={it === 'מיקום הסניף על המפה' ? 'noopener noreferrer' : undefined} style={{ fontSize: 14, color: '#555', transition: 'color 0.15s' }}
+                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#555')}
+                    >{it}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div style={{ background: 'var(--gold)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
+            <div style={{ fontSize: 22, fontWeight: 900, color: '#111', marginBottom: 4 }}>BOB</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#333', letterSpacing: 3, marginBottom: 20 }}>REWARDS</div>
+            <Link href="#" style={{ display: 'block', color: '#333', fontSize: 13, marginBottom: 8 }}>למד עוד</Link>
+            <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
+          </div>
         </div>
-
-        <div>
-          <h4 className="text-[17px] font-bold text-[var(--color-ink)]">מחלקות</h4>
-          <ul className="mt-3 space-y-1.5">
-            {DEPARTMENTS.map(function (d) {
-              return (<li key={d}><a href={"/category/" + encodeURIComponent(d)} className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">{d}</a></li>);
-            })}
-          </ul>
+        <div style={{ borderTop: '1px solid #DDD', padding: '28px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 15, color: '#222', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
+            <div style={{ display: 'flex' }}>
+              <input type="email" placeholder="הכנס כתובת אימייל" style={{ border: 'none', padding: '11px 18px', fontSize: 14, width: 260, borderRadius: '8px 0 0 8px', fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
+              <button style={{ background: 'var(--gold)', color: '#111', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '0 8px 8px 0', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 20 }}>
+            {['Facebook','Instagram','TikTok','YouTube'].map(s => (
+              <Link key={s} href="#" style={{ fontSize: 13, color: '#555', transition: 'color 0.15s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--gold-light)')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#555')}
+              >{s}</Link>
+            ))}
+          </div>
         </div>
-
-        <div>
-          <h4 className="text-[17px] font-bold text-[var(--color-ink)]">שירות לקוחות</h4>
-          <ul className="mt-3 space-y-1.5">
-            <li><a href="/about" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">אודותינו</a></li>
-            <li><a href="/contact" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">צור קשר</a></li>
-            <li><a href="/faq" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">שאלות נפוצות</a></li>
-            <li><a href="/cart" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">סל קניות</a></li>
-          </ul>
+        <div style={{ borderTop: '1px solid #DDD', padding: '16px 0', textAlign: 'center', fontSize: 12, color: '#888' }}>
+          © 2025 בוב חומרי בניין קריית ים. כל הזכויות שמורות. | עיצוב ובנייה: <a href="https://2bnmedia.com" target="_blank" rel="noopener noreferrer" style={{color:"#2D6A4F",fontWeight:700,textDecoration:"underline"}}>2bnmedia.com</a>
         </div>
-
-        <div>
-          <h4 className="text-[17px] font-bold text-[var(--color-ink)]">משפטי</h4>
-          <ul className="mt-3 space-y-1.5">
-            <li><a href="/terms" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">תקנון האתר</a></li>
-            <li><a href="/privacy" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">מדיניות פרטיות</a></li>
-            <li><a href="/accessibility" className="text-[16px] text-[var(--color-muted)] hover:text-[var(--color-brown)]">הצהרת נגישות</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-[var(--color-line)] px-5 py-4">
-        <p className="mx-auto max-w-[96vw] text-[14px] text-[var(--color-muted)]">© 2026 בוב חומרי בניין. כל הזכויות שמורות.</p>
       </div>
     </footer>
   );
