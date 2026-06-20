@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 
 const DEFAULT_HERO = [
-  { title: 'חסכו עד ₪300', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', btn: 'לקנייה עכשיו', badge: 'מבצע מיוחד', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90', overlay: 'rgba(50,30,15,0.45)' },
-  { title: 'כלי עבודה מקצועיים', sub: 'מבחר ענק של כלים ממותגים מובילים', btn: 'גלו עכשיו', badge: 'חדש', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=90', overlay: 'rgba(20,20,20,0.5)' },
-  { title: 'חומרי בניין איכותיים', sub: 'כל מה שצריך לפרויקט — במקום אחד', btn: 'לקטלוג', badge: 'קיץ 2025', img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90', overlay: 'rgba(30,50,15,0.5)' },
+  { title: 'חסכו עד ₪300', titleColor: '#ffffff', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', subColor: '#ffffff', btn: 'לקנייה עכשיו', btnColor: '#111111', badge: 'מבצע מיוחד', badgeColor: '#111111', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90', overlay: 'rgba(50,30,15,0.45)' },
+  { title: 'כלי עבודה מקצועיים', titleColor: '#ffffff', sub: 'מבחר ענק של כלים ממותגים מובילים', subColor: '#ffffff', btn: 'גלו עכשיו', btnColor: '#111111', badge: 'חדש', badgeColor: '#111111', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1400&q=90', overlay: 'rgba(20,20,20,0.5)' },
+  { title: 'חומרי בניין איכותיים', titleColor: '#ffffff', sub: 'כל מה שצריך לפרויקט — במקום אחד', subColor: '#ffffff', btn: 'לקטלוג', btnColor: '#111111', badge: 'קיץ 2025', badgeColor: '#111111', img: 'https://images.unsplash.com/photo-1637241612956-b7309005288b?w=1400&q=90', overlay: 'rgba(30,50,15,0.5)' },
 ]
 
 function hexToRgba(hex: string, alpha: number) {
@@ -22,6 +22,23 @@ function rgbaToHex(rgba: string) {
 function rgbaToAlpha(rgba: string) {
   const m = rgba.match(/rgba?\([^,]+,[^,]+,[^,]+,\s*([\d.]+)/)
   return m ? parseFloat(m[1]) : 0.45
+}
+
+function TextWithColor({ label, value, color, onValue, onColor }: { label: string; value: string; color: string; onValue: (v: string) => void; onColor: (v: string) => void }) {
+  return (
+    <div>
+      <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>{label}</label>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <input value={value} onChange={e => onValue(e.target.value)}
+          style={{ flex: 1, border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          <span style={{ fontSize: 10, color: '#aaa' }}>צבע</span>
+          <input type="color" value={color} onChange={e => onColor(e.target.value)}
+            style={{ width: 36, height: 32, border: '1px solid #ddd', borderRadius: 6, cursor: 'pointer', padding: 2 }} />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function HeroEditor() {
@@ -44,7 +61,7 @@ export default function HeroEditor() {
   }
 
   function addSlide() {
-    setSlides(s => [...s, { title: 'כותרת חדשה', sub: 'תת-כותרת', btn: 'לחץ כאן', badge: 'חדש', img: '', overlay: 'rgba(30,30,30,0.45)' }])
+    setSlides(s => [...s, { title: 'כותרת חדשה', titleColor: '#ffffff', sub: 'תת-כותרת', subColor: '#ffffff', btn: 'לחץ כאן', btnColor: '#111111', badge: 'חדש', badgeColor: '#111111', img: '', overlay: 'rgba(30,30,30,0.45)' }])
     setActive(slides.length)
   }
 
@@ -58,8 +75,7 @@ export default function HeroEditor() {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    const ext = file.name.split('.').pop()
-    const fileName = `hero_${Date.now()}.${ext}`
+    const fileName = `hero_${Date.now()}.${file.name.split('.').pop()}`
     const { error } = await supabase.storage.from('gallery').upload(fileName, file)
     if (!error) {
       const { data } = supabase.storage.from('gallery').getPublicUrl(fileName)
@@ -74,7 +90,7 @@ export default function HeroEditor() {
     setSaved(true); setTimeout(() => setSaved(false), 2000)
   }
 
-  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center' }}>טוען...</div>
+  if (loading) return <div style={{ color: '#aaa', padding: 40, textAlign: 'center', minHeight: 200 }}>טוען...</div>
 
   const slide = slides[active]
   const overlayHex = rgbaToHex(slide.overlay)
@@ -98,23 +114,20 @@ export default function HeroEditor() {
       </div>
 
       {/* FIELDS */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        {[['title','כותרת'],['sub','תת-כותרת'],['btn','טקסט כפתור'],['badge','תגית']].map(([f, l]) => (
-          <div key={f}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>{l}</label>
-            <input value={(slide as any)[f]} onChange={e => update(f, e.target.value)}
-              style={{ width: '100%', border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' as const }} />
-          </div>
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <TextWithColor label="כותרת" value={slide.title} color={slide.titleColor || '#ffffff'} onValue={v => update('title', v)} onColor={v => update('titleColor', v)} />
+        <TextWithColor label="תת-כותרת" value={slide.sub} color={slide.subColor || '#ffffff'} onValue={v => update('sub', v)} onColor={v => update('subColor', v)} />
+        <TextWithColor label="טקסט כפתור" value={slide.btn} color={slide.btnColor || '#111111'} onValue={v => update('btn', v)} onColor={v => update('btnColor', v)} />
+        <TextWithColor label="תגית" value={slide.badge} color={slide.badgeColor || '#111111'} onValue={v => update('badge', v)} onColor={v => update('badgeColor', v)} />
 
         {/* IMAGE */}
-        <div style={{ gridColumn: '1/-1' }}>
+        <div>
           <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>תמונה</label>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <input value={slide.img} onChange={e => update('img', e.target.value)} placeholder="הכנס קישור תמונה"
               style={{ flex: 1, border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }} />
+            <span style={{ fontSize: 12, color: '#aaa' }}>או</span>
             <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
-            <span style={{ fontSize: 13, color: '#aaa', alignSelf: 'center' }}>או</span>
             <button onClick={() => fileRef.current?.click()} disabled={uploading}
               style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
               {uploading ? '...' : '+ העלה'}
@@ -124,7 +137,7 @@ export default function HeroEditor() {
         </div>
 
         {/* OVERLAY */}
-        <div style={{ gridColumn: '1/-1' }}>
+        <div>
           <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 8 }}>צבע כיסוי (overlay)</label>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', background: '#f9f9f9', borderRadius: 10, padding: 12 }}>
             <div>
