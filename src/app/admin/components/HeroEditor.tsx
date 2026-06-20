@@ -111,9 +111,10 @@ export default function HeroEditor() {
         <div style={{ gridColumn: '1/-1' }}>
           <label style={{ fontSize: 12, fontWeight: 600, color: '#666', display: 'block', marginBottom: 4 }}>תמונה</label>
           <div style={{ display: 'flex', gap: 8 }}>
-            <input value={slide.img} onChange={e => update('img', e.target.value)} placeholder="הכנס קישור או העלה תמונה"
+            <input value={slide.img} onChange={e => update('img', e.target.value)} placeholder="הכנס קישור תמונה"
               style={{ flex: 1, border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }} />
             <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
+            <span style={{ fontSize: 13, color: '#aaa', alignSelf: 'center' }}>או</span>
             <button onClick={() => fileRef.current?.click()} disabled={uploading}
               style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
               {uploading ? '...' : '+ העלה'}
