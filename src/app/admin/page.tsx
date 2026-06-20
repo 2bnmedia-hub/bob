@@ -9,6 +9,7 @@ import ProductsSection from './components/ProductsSection'
 import CategoriesSection from './components/CategoriesSection'
 import AnalyticsSection from './components/AnalyticsSection'
 import OrdersSection from './components/OrdersSection'
+import HomepageSection from './components/HomepageSection'
 import GallerySection from './components/GallerySection'
 import ImportModal from './components/ImportModal'
 
@@ -49,7 +50,7 @@ export default function AdminPage() {
           onImport={() => setImportOpen(true)} onAddProduct={() => {}} />
         <div className="admin-content">
           {section === 'dashboard'  && <DashboardSection />}
-          {section === 'homepage'   && <div style={{ padding: 24, direction: 'rtl' }}><h2 style={{ fontSize: 20, fontWeight: 700, color: '#222' }}>ניהול דף הבית — בקרוב</h2></div>}
+          {section === 'homepage'   && <HomepageSection />}
           {section === 'products'   && <ProductsSection search={search} />}
           {section === 'categories' && <CategoriesSection />}
           {section === 'analytics'  && <AnalyticsSection />}
