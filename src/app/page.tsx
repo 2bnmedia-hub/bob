@@ -118,7 +118,7 @@ function ProductCard({ product, badge }: { product: typeof PROMO_PRODUCTS[0]; ba
   const [hovered, setHovered] = useState(false);
 
   function handleAdd() {
-    addItem({ id: product.id, name: product.name, price: product.price });
+    addItem({ id: product.id || String(Date.now()), name: product.name, price: Number(product.price) });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }
@@ -151,8 +151,8 @@ function ProductCard({ product, badge }: { product: typeof PROMO_PRODUCTS[0]; ba
       <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8, flex: 1 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-800)', lineHeight: 1.4, minHeight: 40 }}>{product.name}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Stars rating={product.rating} />
-          <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>({product.reviews.toLocaleString()})</span>
+          <Stars rating={product.rating || 0} />
+          <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>({(product.reviews || 0).toLocaleString()})</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 'auto' }}>
           <span style={{ fontSize: 20, fontWeight: 800, color: 'var(--gray-800)' }}>₪{product.price}</span>
