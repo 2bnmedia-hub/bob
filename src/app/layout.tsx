@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
-import Header from "@/components/Header";
+import { ConditionalHeader, ConditionalFooter } from "@/components/ConditionalHeader";
 import ChatWidget from "@/components/ChatWidget";
-import Footer from "@/components/Footer";
+
 
 export const viewport = {
   width: "device-width",
@@ -26,10 +26,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <CartProvider>
-          <Header />
+          {!pathname?.startsWith("/admin") <ConditionalHeader /><Header /> <Header />}
           {children}
           <ChatWidget />
-          <Footer />
+          <ConditionalFooter />
         </CartProvider>
       </body>
     </html>
