@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import ImageUploadWithCrop from '@/components/ImageUploadWithCrop'
 import HeroEditor from './HeroEditor'
 
 type SubSection = 'menu' | 'hero' | 'weekly' | 'gallery' | 'deals' | 'best' | 'categories'
@@ -102,7 +103,7 @@ function ProductsEditor({ dbKey }: { dbKey: string }) {
                 ))}
                 <div>
                   <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
-                  <ImageInput value={p.img} onChange={v => update(i, 'img', v)} />
+                  <ImageUploadWithCrop value={p.img} onChange={v => update(i, 'img', v)} />
                 </div>
               </div>
             </div>
@@ -170,7 +171,7 @@ function CategoriesEditor() {
             </div>
             <div>
               <label style={{ fontSize: 11, color: '#888', display: 'block', marginBottom: 3 }}>תמונה</label>
-              <ImageInput value={cat.img} onChange={v => update(i, 'img', v)} />
+              <ImageUploadWithCrop value={cat.img} onChange={v => update(i, 'img', v)} />
             </div>
           </div>
         ))}

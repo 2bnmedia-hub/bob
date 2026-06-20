@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import ImageUploadWithCrop from '@/components/ImageUploadWithCrop'
 
 const DEFAULT_HERO = [
   { title: 'חסכו עד ₪300', titleColor: '#ffffff', sub: 'על מוצרי בנייה נבחרים מהמותגים המובילים', subColor: '#ffffff', btn: 'לקנייה עכשיו', btnColor: '#111111', badge: 'מבצע מיוחד', badgeColor: '#111111', img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1400&q=90', overlay: 'rgba(50,30,15,0.45)' },
@@ -131,7 +132,7 @@ export default function HeroEditor() {
             <input value={slide.img} onChange={e => update('img', e.target.value)} placeholder="הכנס קישור תמונה"
               style={{ flex: 1, border: '1px solid #ddd', borderRadius: 8, padding: '8px 12px', fontSize: 14, fontFamily: 'inherit', outline: 'none' }} />
             <span style={{ fontSize: 12, color: '#aaa' }}>או</span>
-            <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} style={{ display: 'none' }} />
+            <ImageUploadWithCrop value={slide.img} onChange={v => update('img', v)} aspect={16/7} />
             <button onClick={() => fileRef.current?.click()} disabled={uploading}
               style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
               {uploading ? '...' : '+ העלה'}
