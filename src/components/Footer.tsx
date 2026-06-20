@@ -33,7 +33,7 @@ export default function Footer() {
             <Link href="#" style={{ display: 'block', color: '#111', fontSize: 13, fontWeight: 700 }}>הצטרף עכשיו →</Link>
           </div>
         </div>
-        <div style={{ borderTop: '1px solid #DDD', padding: '28px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <div style={{ borderTop: '1px solid #DDD', padding: '28px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
           <div>
             <div style={{ fontSize: 15, color: '#222', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
             <div style={{ display: 'flex' }}>
