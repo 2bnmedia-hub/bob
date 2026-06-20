@@ -120,7 +120,7 @@ export default function HeroEditor() {
         <TextWithColor label="טקסט כפתור" value={slide.btn} color={slide.btnColor || '#111111'} onValue={v => update('btn', v)} onColor={v => update('btnColor', v)} />
         <div>
           <label style={{ fontSize: 12, fontWeight: 600, color: "#666", display: "block", marginBottom: 4 }}>קישור כפתור</label>
-          <input value={(slide as any).btnHref || "/"} onChange={e => update("btnHref", e.target.value)} placeholder="להדביק לפה בבקשה את לינק הדף שתרצו שיעלה בעת לחיצה על הכפתור" style={{ width: "100%", border: "1px solid #ddd", borderRadius: 8, padding: "8px 12px", fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
+          <input value={(slide as any).btnHref || ""} onChange={e => update("btnHref", e.target.value)} placeholder="להדביק לפה בבקשה את לינק הדף שתרצו שיעלה בעת לחיצה על הכפתור" style={{ width: "100%", border: "1px solid #ddd", borderRadius: 8, padding: "8px 12px", fontSize: 14, fontFamily: "inherit", outline: "none", boxSizing: "border-box" }} />
         </div>
         <TextWithColor label="תגית" value={slide.badge} color={slide.badgeColor || '#111111'} onValue={v => update('badge', v)} onColor={v => update('badgeColor', v)} />
 
