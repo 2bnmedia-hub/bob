@@ -196,10 +196,22 @@ function GalleryEditor() {
 
   useEffect(() => { load() }, [])
 
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(e.target.files || []); if (!files.length) return
+  const [pendingFiles, setPendingFiles] = useState<File[]>([])
+
+  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || [])
+    setPendingFiles(prev => [...prev, ...files])
+    if (fileRef.current) fileRef.current.value = ''
+  }
+
+  function removePending(i: number) {
+    setPendingFiles(prev => prev.filter((_, idx) => idx !== i))
+  }
+
+  async function handleUpload() {
+    if (!pendingFiles.length) return
     setUploading(true)
-    for (const file of files) {
+    for (const file of pendingFiles) {
       const fileName = `gallery_${Date.now()}_${Math.random().toString(36).slice(2)}.${file.name.split('.').pop()}`
       const { error } = await supabase.storage.from('gallery').upload(fileName, file)
       if (!error) {
@@ -208,7 +220,7 @@ function GalleryEditor() {
       }
     }
     setTitle('')
-    if (fileRef.current) fileRef.current.value = ''
+    setPendingFiles([])
     await load()
     setUploading(false)
   }
@@ -229,13 +241,32 @@ function GalleryEditor() {
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
           <input type="text" placeholder="כותרת תמונה (אופציונלי)" value={title} onChange={e => setTitle(e.target.value)}
             style={{ border: '1px solid #ddd', borderRadius: 8, padding: '7px 12px', fontSize: 13, fontFamily: 'inherit', width: 200, outline: 'none' }} />
-          <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleUpload} style={{ display: 'none' }} />
-          <button onClick={() => fileRef.current?.click()} disabled={uploading}
-            style={{ background: '#F0C040', color: '#111', border: 'none', borderRadius: 8, padding: '7px 18px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {uploading ? 'מעלה...' : '+ בחר תמונה'}
+          <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
+          <button onClick={() => fileRef.current?.click()}
+            style={{ background: '#fff', color: '#333', border: '1px solid #ddd', borderRadius: 8, padding: '7px 18px', fontWeight: 600, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+            + בחר תמונות
           </button>
+          {pendingFiles.length > 0 && (
+            <button onClick={handleUpload} disabled={uploading}
+              style={{ background: '#2D6A4F', color: '#fff', border: 'none', borderRadius: 8, padding: '7px 18px', fontWeight: 700, fontSize: 13, cursor: 'pointer', fontFamily: 'inherit' }}>
+              {uploading ? 'מעלה...' : `שמור (${pendingFiles.length} תמונות)`}
+            </button>
+          )}
         </div>
       </div>
+      {pendingFiles.length > 0 && (
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#888', marginBottom: 8 }}>ממתינות להעלאה:</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {pendingFiles.map((f, i) => (
+              <div key={i} style={{ position: 'relative' }}>
+                <img src={URL.createObjectURL(f)} alt={f.name} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8, border: '2px solid #F0C040' }} />
+                <button onClick={() => removePending(i)} style={{ position: 'absolute', top: -6, right: -6, background: '#e33', color: '#fff', border: 'none', borderRadius: '50%', width: 18, height: 18, fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
         {images.map(img => (
           <div key={img.id} style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid #eee' }}>
