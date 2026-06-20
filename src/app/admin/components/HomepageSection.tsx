@@ -211,14 +211,14 @@ function GalleryEditor() {
   async function handleUpload() {
     if (!pendingFiles.length) return
     setUploading(true)
-    for (const file of pendingFiles) {
+    await Promise.all(pendingFiles.map(async file => {
       const fileName = `gallery_${Date.now()}_${Math.random().toString(36).slice(2)}.${file.name.split('.').pop()}`
       const { error } = await supabase.storage.from('gallery').upload(fileName, file)
       if (!error) {
         const { data } = supabase.storage.from('gallery').getPublicUrl(fileName)
         await supabase.from('gallery').insert({ url: data.publicUrl, title: title || file.name })
       }
-    }
+    }))
     setTitle('')
     setPendingFiles([])
     await load()
