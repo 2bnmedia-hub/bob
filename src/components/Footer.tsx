@@ -37,8 +37,8 @@ export default function Footer() {
           <div>
             <div style={{ fontSize: 15, color: '#222', fontWeight: 600, marginBottom: 12 }}>קבל הצעות בלעדיות וטיפים מקצועיים</div>
             <div style={{ display: 'flex' }}>
-              <input type="email" placeholder="הכנס כתובת אימייל" style={{ border: 'none', padding: '11px 18px', fontSize: 14, width: 260, borderRadius: '8px 0 0 8px', fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
-              <button style={{ background: 'var(--gold)', color: '#111', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '0 8px 8px 0', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
+              <input type="email" placeholder="הכנס כתובת אימייל" style={{ border: 'none', padding: '11px 18px', fontSize: 14, width: 260, borderRadius: '0 8px 8px 0', fontFamily: 'var(--font)', direction: 'rtl', outline: 'none' }} />
+              <button style={{ background: 'var(--gold)', color: '#111', border: 'none', padding: '11px 22px', fontWeight: 700, fontSize: 14, borderRadius: '8px 0 0 8px', cursor: 'pointer', fontFamily: 'var(--font)' }}>הצטרף</button>
             </div>
           </div>
           <div style={{ display: 'flex', gap: 20 }}>
