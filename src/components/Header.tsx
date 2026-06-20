@@ -95,7 +95,7 @@ export default function Header() {
           <nav className="desktop-nav" style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
             {NAV_LINKS.map(l => (
               <Link key={l.href} href={l.href} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 14, fontWeight: 600, color: '#111', padding: '7px 10px', borderRadius: 6 }}>
-                {l.label} <ChevronDown size={14} strokeWidth={2.5} />
+                {l.label}
               </Link>
             ))}
           </nav>
