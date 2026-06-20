@@ -104,7 +104,7 @@ export default function Header() {
           </nav>
 
           {/* SEARCH */}
-          <div style={{ flex: 0.5, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden', marginRight: 'auto' }}>
+          <div style={{ flex: 0.5, display: 'flex', alignItems: 'center', border: '2px solid var(--gold)', borderRadius: 10, background: '#fafafa', overflow: 'hidden', margin: '0 auto' }}>
             <div style={{ padding: '0 12px', display: 'flex', alignItems: 'center', borderLeft: '1px solid #eee' }}>
               <Search size={17} color="var(--gold-dark)" strokeWidth={2} />
             </div>
