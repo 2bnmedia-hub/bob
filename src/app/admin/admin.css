@@ -19,7 +19,7 @@
 }
 
 .admin-logo {
-  padding: 20px 16px 16px;
+  padding: 20px 20px 16px;
   border-bottom: 1px solid #e8e8e8;
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@
   flex-shrink: 0;
 }
 
-.admin-logo-text { font-size: 15px; font-weight: 600; color: #111; }
+.admin-logo-text { font-size: 12px; font-weight: 600; color: #111; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px; }
 .admin-logo-sub  { font-size: 11px; color: #888; margin-top: 1px; }
 
 .admin-nav { flex: 1; padding: 12px 8px; overflow-y: auto; }
