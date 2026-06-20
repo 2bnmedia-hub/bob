@@ -196,7 +196,7 @@ export default function HomePage() {
     supabase.from('homepage_content').select('key,value').in('key', ['weekly','deals','best','categories']).then(({ data }) => {
       if (!data) return;
       data.forEach(row => {
-        if (row.key === 'weekly' && row.value?.length) setPromoProducts(row.value);
+        if (row.key === 'weekly' && row.value?.length) setPromoProducts(row.value.length >= 4 ? row.value : [...row.value, ...PROMO_PRODUCTS.slice(row.value.length)]);
         if (row.key === 'deals' && row.value?.length) setFeaturedProducts(row.value);
         if (row.key === 'categories' && row.value?.length) setCategories(prev => [prev[0], ...row.value]);
       });
