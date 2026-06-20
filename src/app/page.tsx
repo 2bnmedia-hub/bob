@@ -188,6 +188,20 @@ export default function HomePage() {
     });
   }, []);
   const [catTab, setCatTab] = useState(0);
+  const [promoProducts, setPromoProducts] = useState(PROMO_PRODUCTS);
+  const [featuredProducts, setFeaturedProducts] = useState(FEATURED_PRODUCTS);
+  const [categories, setCategories] = useState(CATEGORIES);
+
+  useEffect(() => {
+    supabase.from('homepage_content').select('key,value').in('key', ['weekly','deals','best','categories']).then(({ data }) => {
+      if (!data) return;
+      data.forEach(row => {
+        if (row.key === 'weekly' && row.value?.length) setPromoProducts(row.value);
+        if (row.key === 'deals' && row.value?.length) setFeaturedProducts(row.value);
+        if (row.key === 'categories' && row.value?.length) setCategories(prev => [prev[0], ...row.value]);
+      });
+    });
+  }, []);
   const [editTab, setEditTab] = useState(0);
   const hero = heroSlides[heroIdx];
 
@@ -288,7 +302,7 @@ export default function HomePage() {
             </FadeIn>
             {/* PRODUCTS */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="products-grid-4">
-              {PROMO_PRODUCTS.map((p, i) => (
+              {promoProducts.map((p, i) => (
                 <FadeIn key={p.id} delay={i * 80}>
                   <ProductCard product={p} badge="ONLINE DEAL" />
                 </FadeIn>
@@ -324,7 +338,7 @@ export default function HomePage() {
           <FadeIn delay={100}>
             {/* שורה 1: בניין (גדול) + כלי עבודה + חשמל */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 16, marginBottom: 16, alignItems: 'stretch' }}>
-              {CATEGORIES.filter(c => !c.red).slice(0, 3).map((cat, i) => (
+              {categories.filter((c: any) => !c.red).slice(0, 3).map((cat: any, i: number) => (
                 <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: i === 0 ? 300 : '100%', minHeight: i === 0 ? 300 : 140 }}
                   onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
                   onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
@@ -340,7 +354,7 @@ export default function HomePage() {
             </div>
             {/* שורה 2: 5 קטגוריות + מבצעים = 6 תאים שווים */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 16 }}>
-              {CATEGORIES.filter(c => !c.red).slice(3, 6).map((cat) => (
+              {categories.filter((c: any) => !c.red).slice(3, 6).map((cat: any) => (
                 <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: 160 }}
                   onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
                   onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
@@ -356,7 +370,7 @@ export default function HomePage() {
             </div>
             {/* שורה 3: 2 קטגוריות + מבצעים */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-              {CATEGORIES.filter(c => !c.red).slice(6).map((cat) => (
+              {categories.filter((c: any) => !c.red).slice(6).map((cat: any) => (
                 <Link key={cat.href} href={cat.href} style={{ textDecoration: 'none', position: 'relative', borderRadius: 20, overflow: 'hidden', display: 'block', height: 160 }}
                   onMouseEnter={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1.08)'; if(ov) ov.style.background='rgba(0,0,0,0.48)'; }}
                   onMouseLeave={e => { const img = e.currentTarget.querySelector('img') as HTMLElement; const ov = e.currentTarget.querySelector('.ov') as HTMLElement; if(img) img.style.transform='scale(1)'; if(ov) ov.style.background='rgba(0,0,0,0.28)'; }}
@@ -429,7 +443,7 @@ export default function HomePage() {
             </div>
           </FadeIn>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 16 }} className="featured-grid">
-            {FEATURED_PRODUCTS.map((p, i) => (
+            {featuredProducts.map((p, i) => (
               <FadeIn key={p.id} delay={i * 60}>
                 <ProductCard product={p} badge="SALE" />
               </FadeIn>
