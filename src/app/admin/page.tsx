@@ -9,12 +9,13 @@ import ProductsSection from './components/ProductsSection'
 import CategoriesSection from './components/CategoriesSection'
 import AnalyticsSection from './components/AnalyticsSection'
 import OrdersSection from './components/OrdersSection'
+import GallerySection from './components/GallerySection'
 import ImportModal from './components/ImportModal'
 
-export type Section = 'dashboard' | 'products' | 'categories' | 'analytics' | 'orders'
+export type Section = 'dashboard' | 'products' | 'categories' | 'analytics' | 'orders' | 'gallery'
 
 const TITLES: Record<Section, string> = {
-  dashboard: 'סקירה כללית', products: 'מוצרים',
+  dashboard: 'סקירה כללית', products: 'מוצרים', gallery: 'גלריה',
   categories: 'קטגוריות', analytics: 'אנליטיקס', orders: 'הזמנות',
 }
 
@@ -52,6 +53,7 @@ export default function AdminPage() {
           {section === 'categories' && <CategoriesSection />}
           {section === 'analytics'  && <AnalyticsSection />}
           {section === 'orders'     && <OrdersSection />}
+          {section === 'gallery'    && <GallerySection />}
         </div>
       </div>
       {importOpen && <ImportModal onClose={() => setImportOpen(false)} />}
