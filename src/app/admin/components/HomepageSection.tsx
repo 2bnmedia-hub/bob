@@ -8,11 +8,10 @@ type SubSection = 'menu' | 'hero' | 'weekly' | 'gallery' | 'deals' | 'best' | 'c
 
 const CARDS = [
   { id: 'hero', icon: '🎯', title: 'סקשן ראשי', desc: 'עריכת הכותרת, תת-כותרת והכפתורים בבאנר העליון', color: '#E3F2FD' },
-  { id: 'weekly', icon: '🔥', title: 'מבצעי השבוע', desc: 'עריכת מוצרים ומחירים מיוחדים לשבוע הנוכחי', color: '#FFF3E0' },
-  { id: 'gallery', icon: '🖼️', title: 'גלריית תמונות', desc: 'ניהול תמונות המוצגות בגלריה הראשית', color: '#E8F5E9' },
   { id: 'deals', icon: '⚡', title: 'העסקאות הכי שוות', desc: 'בחירת מוצרים להצגה בסקשן העסקאות המובחרות', color: '#FCE4EC' },
-  { id: 'best', icon: '💎', title: 'העסקאות הטובות ביותר', desc: 'ניהול רשימת ההצעות הטובות ביותר בדף הבית', color: '#EDE7F6' },
+  { id: 'best', icon: '🆕', title: 'חדש על המדף', desc: 'ניהול מוצרים חדשים שהתווספו לחנות', color: '#EDE7F6' },
   { id: 'categories', icon: '🗂️', title: 'קטגוריות מובילות', desc: 'סידור וניהול הקטגוריות המוצגות בדף הבית', color: '#E0F7FA' },
+  { id: 'weekly', icon: '🔥', title: 'מבצעי השבוע', desc: 'עריכת מוצרים ומחירים מיוחדים לשבוע הנוכחי', color: '#FFF3E0' },
 ]
 
 const DEFAULT_PRODUCTS = [{ id: '1', name: '', price: '', was: '', img: '' }]
@@ -292,7 +291,7 @@ export default function HomepageSection() {
       <div style={{ padding: 24, direction: 'rtl' }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: '#222', marginBottom: 8 }}>ניהול דף הבית</h2>
         <p style={{ fontSize: 14, color: '#888', marginBottom: 28 }}>בחר סקשן לעריכה</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
           {CARDS.map(card => (
             <div key={card.id} onClick={() => setSub(card.id as SubSection)}
               style={{ background: '#fff', border: '1px solid #eee', borderRadius: 14, padding: 20, cursor: 'pointer', display: 'flex', gap: 16, alignItems: 'flex-start', transition: 'box-shadow 0.2s' }}

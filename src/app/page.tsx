@@ -395,7 +395,7 @@ export default function HomePage() {
       {/* ══ TOP DEALS ══ */}
       <section style={{ padding: '64px 0' }}>
         <div className="container">
-          <FadeIn><h2 className="section-title">העסקאות הטובות ביותר</h2></FadeIn>
+          <FadeIn><h2 className="section-title">חדש על המדף</h2></FadeIn>
           <FadeIn delay={100}>
             <div style={{ borderRadius: 16, overflow: 'hidden', position: 'relative', marginBottom: 20 }}>
               <img src="https://images.unsplash.com/photo-1609205807107-43d095e9d6e9?w=1400&q=90" alt="עסקה" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
